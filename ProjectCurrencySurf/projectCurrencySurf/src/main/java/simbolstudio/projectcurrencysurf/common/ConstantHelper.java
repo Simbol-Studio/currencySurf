@@ -4,6 +4,8 @@ package simbolstudio.projectcurrencysurf.common;
  * Created by Marcus on 21-Aug-2016.
  */
 public class ConstantHelper {
+    public static final int TIMEOUT_SECONDS = 10;
+
     public static final String SHARED_PREFERENCES="SHARED_PREFERENCES";
     public static final String SHARED_PREFERENCES_COUNTRY_ISO="SHARED_PREFERENCES_COUNTRY_ISO";
 
