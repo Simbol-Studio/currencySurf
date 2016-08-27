@@ -3,6 +3,10 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
+    dexOptions{
+        jumboMode = true;
+        javaMaxHeapSize "2g"
+    }
 
     defaultConfig {
         applicationId "simbolstudio.projectcurrencysurf"
@@ -10,6 +14,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -31,4 +36,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.0.1'
     compile 'com.android.support:support-v13:23.0.1'
     compile 'com.facebook.fresco:fresco:0.11.0'
+    compile 'com.android.support:multidex:1.0.0'
 }
