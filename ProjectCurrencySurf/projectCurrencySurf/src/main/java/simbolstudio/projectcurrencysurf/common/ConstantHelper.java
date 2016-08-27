@@ -6,8 +6,14 @@ package simbolstudio.projectcurrencysurf.common;
 public class ConstantHelper {
     public static final int TIMEOUT_SECONDS = 10;
 
+    public static final String ASSETS_NAME_COUNTRIES="countries.json";
+    public static final String ASSETS_NAME_CURRENCIES="currencies.json";
+
     public static final String SHARED_PREFERENCES="SHARED_PREFERENCES";
     public static final String SHARED_PREFERENCES_COUNTRY_ISO="SHARED_PREFERENCES_COUNTRY_ISO";
+    public static final String SHARED_PREFERENCES_BASE_CURRENCY="SHARED_PREFERENCES_BASE_CURRENCY";
+    public static final String SHARED_PREFERENCES_LAST_UPDATE="SHARED_PREFERENCES_LAST_UPDATE";
+    public static final String SHARED_PREFERENCES_="SHARED_PREFERENCES_COUNTRY_ISO";
 
     public static final int SNACKBAR_TEXT_SIZE = 16;
     public static final int SNACKBAR_TEXT_MAXLINE = 3;
