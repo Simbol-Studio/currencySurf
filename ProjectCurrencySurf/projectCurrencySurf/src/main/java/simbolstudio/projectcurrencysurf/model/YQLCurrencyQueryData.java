@@ -9,4 +9,12 @@ import java.util.Date;
 public class YQLCurrencyQueryData implements Serializable {
     ForexRateList results;
     Date created;
+
+    public ForexRateList getResults() {
+        return results;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
 }

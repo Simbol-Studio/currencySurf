@@ -7,4 +7,8 @@ import java.io.Serializable;
  */
 public class YQLCurrencyQueryResponse implements Serializable {
     YQLCurrencyQueryData query;
+
+    public YQLCurrencyQueryData getQuery() {
+        return query;
+    }
 }
