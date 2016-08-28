@@ -13,15 +13,14 @@
     <dimen name="_80_dp">80dp</dimen>
 
     <!--for font-->
-    <dimen name="_4_sp">4sp</dimen>
-    <dimen name="_8_sp">8sp</dimen>
+    <dimen name="_12_sp">12sp</dimen>
+    <dimen name="_14_sp">14sp</dimen>
     <dimen name="_16_sp">16sp</dimen>
+    <dimen name="_18_sp">18sp</dimen>
+    <dimen name="_20_sp">20sp</dimen>
     <dimen name="_24_sp">24sp</dimen>
     <dimen name="_32_sp">32sp</dimen>
-    <dimen name="_40_sp">40sp</dimen>
-    <dimen name="_48_sp">48sp</dimen>
-    <dimen name="_56_sp">56sp</dimen>
-    <dimen name="_64_sp">64sp</dimen>
-    <dimen name="_72_sp">72sp</dimen>
-    <dimen name="_80_sp">80sp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 </resources>
