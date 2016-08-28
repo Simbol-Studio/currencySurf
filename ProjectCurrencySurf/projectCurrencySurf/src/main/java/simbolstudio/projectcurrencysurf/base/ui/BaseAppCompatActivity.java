@@ -1,6 +1,7 @@
 package simbolstudio.projectcurrencysurf.base.ui;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -15,12 +16,14 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 
+import simbolstudio.projectcurrencysurf.R;
 import simbolstudio.projectcurrencysurf.common.ConstantHelper;
 import simbolstudio.projectcurrencysurf.model.Country;
 import simbolstudio.projectcurrencysurf.model.CurrencyType;
+import simbolstudio.projectcurrencysurf.model.ForexRate;
 
 /**
  * Created by Marcus on 21-Aug-2016.
@@ -35,15 +38,6 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     protected abstract void setupData();
 
     @Override
-    public void setSupportActionBar(Toolbar toolbar) {
-        super.setSupportActionBar(toolbar);
-    }
-
-    protected Toolbar getToolbarInstance() {
-        return toolbar;
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         toolbar = null;
@@ -53,6 +47,40 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         this.finish();
+    }
+
+    @Override
+    public void setSupportActionBar(Toolbar toolbar) {
+        super.setSupportActionBar(toolbar);
+    }
+
+    protected Toolbar getToolbarInstance() {
+        return toolbar;
+    }
+
+    protected void setupToolbar(int activityToolbarResourceId, String toolbarTitle, boolean isBack){
+        if(activityToolbarResourceId!=0){
+            if(toolbar==null){
+                toolbar=(Toolbar)findViewById(activityToolbarResourceId);
+            }
+
+            TextView titleTV = null;
+            for(int i =0;i<toolbar.getChildCount();i++){
+                View child = toolbar.getChildAt(i);
+                if(child instanceof TextView){
+                    titleTV=(TextView)child;
+                    titleTV.setText(toolbarTitle);
+                    if(Build.VERSION.SDK_INT<23){
+                        titleTV.setTextAppearance(getActivityContext(), R.style.TitleText);
+                    }else{
+                        titleTV.setTextAppearance(R.style.TitleText);
+                    }
+                    titleTV.setTextColor(getResources().getColor(R.color.amber_50));
+                    break;
+                }
+            }
+        }
+
     }
 
     public void showMessage(String title, String message, String positiveBtnText, AlertDialog.OnClickListener positiveOnclickListener, String negativeBtnText, AlertDialog.OnClickListener negativeOnClickListener) {
@@ -82,7 +110,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
         snackbar.show();
     }
 
-    public Object loadJSONFromAsset(String fileNm) {
+    public String loadJSONToStringFromAsset(String fileNm) {
         String jsonString = null;
         try {
             InputStream is = getAssets().open(fileNm);
@@ -91,20 +119,31 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
             is.read(buffer);
             is.close();
             jsonString = new String(buffer, "UTF-8");
+            return jsonString;
         } catch (IOException ex) {
             ex.printStackTrace();
+            return "";
         }
+    }
+
+    public Object convertJSONStringToObject(String key, String jsonString) {
         if (jsonString != null) {
             Gson gson = new Gson();
             try {
-                if (fileNm.equals(ConstantHelper.ASSETS_NAME_COUNTRIES)) {
-                    Type collectionType = new TypeToken<List<Country>>() {}.getType();
+                if (key.equalsIgnoreCase(ConstantHelper.KEY_ASSETS_NAME_COUNTRIES)) {
+                    Type collectionType = new TypeToken<List<Country>>() {
+                    }.getType();
                     List<Country> resultList = gson.fromJson(jsonString, collectionType);
                     return resultList;
-                } else {
-                    Type collectionType = new TypeToken<List<CurrencyType>>() {}.getType();
+                } else if (key.equalsIgnoreCase(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES)) {
+                    Type collectionType = new TypeToken<List<CurrencyType>>() {
+                    }.getType();
                     List<CurrencyType> resultList = gson.fromJson(jsonString, collectionType);
                     return resultList;
+                } else if (key.equalsIgnoreCase(ConstantHelper.KEY_CURRENCY_RATE)) {
+                    return null;
+                } else {
+                    return null;
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -112,5 +151,50 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
             }
         } else
             return null;
+    }
+
+    public String convertObjectToJSONString(String key, ArrayList<ForexRate> forexRateArrayList) {
+        Gson gson = new Gson();
+        try {
+            if (key.equalsIgnoreCase(ConstantHelper.KEY_CURRENCY_RATE) && forexRateArrayList != null) {
+                return gson.toJson(forexRateArrayList);
+            } else if (key.equalsIgnoreCase(ConstantHelper.KEY_CURRENCY_RATE)) {
+                return null;
+            } else {
+                return null;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public String getCurrencyByCountryISO(String countryISO) {
+        ArrayList<Country> countryList = (ArrayList<Country>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_COUNTRIES, loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_COUNTRIES));
+
+        if (countryList != null && countryList.size() > 0) {
+            for (int i = 0; i < countryList.size(); i++) {
+                if (countryList.get(i).getCountryISO2D().equalsIgnoreCase(countryISO)) {
+                    return countryList.get(i).getCurrencyCode();
+                }
+            }
+            return ConstantHelper.DEFAULT_BASE_CURRENCY;
+        } else
+            return ConstantHelper.DEFAULT_BASE_CURRENCY;
+    }
+
+    public String getYQL(String baseCurrency) {
+        ArrayList<CurrencyType> currencyList = (ArrayList<CurrencyType>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES));
+
+        String uri = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20(";
+        for (int i = 0; i < currencyList.size(); i++) {
+            if (i != 0)
+                uri += "%2C%22" + baseCurrency + currencyList.get(i).getId() + "%22";
+            else
+                uri += "%22" + baseCurrency + currencyList.get(i).getId() + "%22";
+        }
+        uri += ")&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
+
+        return uri;
     }
 }
