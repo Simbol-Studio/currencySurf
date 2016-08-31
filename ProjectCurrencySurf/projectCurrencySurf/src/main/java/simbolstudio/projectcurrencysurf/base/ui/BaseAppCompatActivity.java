@@ -22,7 +22,6 @@ import java.util.List;
 import simbolstudio.projectcurrencysurf.R;
 import simbolstudio.projectcurrencysurf.common.ConstantHelper;
 import simbolstudio.projectcurrencysurf.model.Country;
-import simbolstudio.projectcurrencysurf.model.CurrencyType;
 import simbolstudio.projectcurrencysurf.model.ForexRate;
 
 /**
@@ -146,19 +145,11 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
                     List<Country> resultList = gson.fromJson(jsonString, collectionType);
                     return resultList;
                 } else if (key.equalsIgnoreCase(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES)) {
-                    Type collectionType = new TypeToken<List<CurrencyType>>() {
-                    }.getType();
-                    List<CurrencyType> resultList = gson.fromJson(jsonString, collectionType);
-                    return resultList;
-                } else if (key.equalsIgnoreCase(ConstantHelper.KEY_FOREX_RATE)) {
                     Type collectionType = new TypeToken<List<ForexRate>>() {
                     }.getType();
                     List<ForexRate> resultList = gson.fromJson(jsonString, collectionType);
                     return resultList;
                 }
-//                else if(key.equalsIgnoreCase(ConstantHelper.KEY_SELECTED_CURRENCY)){
-//                    return null;
-//                }
                 else {
                     return null;
                 }
@@ -173,12 +164,9 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     public String convertObjectToJSONString(String key, ArrayList<ForexRate> forexRateArrayList) {
         Gson gson = new Gson();
         try {
-            if (key.equalsIgnoreCase(ConstantHelper.KEY_FOREX_RATE) && forexRateArrayList != null) {
+            if (key.equalsIgnoreCase(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES) && forexRateArrayList != null) {
                 return gson.toJson(forexRateArrayList);
             }
-//            else if (key.equalsIgnoreCase(ConstantHelper.KEY_FOREX_RATE)) {
-//                return null;
-//            }
             else {
                 return null;
             }
@@ -203,7 +191,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     }
 
     public String getYQL(String baseCurrency) {
-        ArrayList<CurrencyType> currencyList = (ArrayList<CurrencyType>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES));
+        ArrayList<ForexRate> currencyList = (ArrayList<ForexRate>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES));
 
         String uri = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20(";
         for (int i = 0; i < currencyList.size(); i++) {
@@ -216,6 +204,19 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
 
         return uri;
     }
+
+    public ArrayList<ForexRate> mergeLatestForexRateWithCurrencyInfo(ArrayList<ForexRate> latestForexRateList){
+        ArrayList<ForexRate> currencyList = (ArrayList<ForexRate>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES));
+
+        for(int i=0;i<currencyList.size() && i<latestForexRateList.size();i++){
+            latestForexRateList.get(i).setId(currencyList.get(i).getId());
+            latestForexRateList.get(i).setCurrencyNm(currencyList.get(i).getCurrencyNm());
+            latestForexRateList.get(i).setCurrencySymbol(currencyList.get(i).getCurrencySymbol());
+        }
+
+        return latestForexRateList;
+    }
+
 
     public ForexRate getForexById(String forexId, ArrayList<ForexRate> forexList) {
         if (forexList != null && forexList.size() > 0 && forexId != null && !forexId.equalsIgnoreCase("")) {
@@ -232,7 +233,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
         if(currencyId.equalsIgnoreCase("try"))
             currencyId="tryturkish";
 
-        int resourceId = getResources().getIdentifier(currencyId.substring(3).toLowerCase(), "drawable", getPackageName());
+        int resourceId = getResources().getIdentifier(currencyId.toLowerCase(), "drawable", getPackageName());
         if (resourceId > 0)
             return resourceId;
         else

@@ -5,13 +5,12 @@ package simbolstudio.projectcurrencysurf.common;
  */
 public class ConstantHelper {
     public static final int TIMEOUT_SECONDS = 10;
+    public static final Long FOREX_LAST_UPDATE = 1472638752l;
 
     public static final String DEFAULT_BASE_CURRENCY_ID = "USD";
 
     public static final String KEY_ASSETS_NAME_COUNTRIES = "countries.json";
     public static final String KEY_ASSETS_NAME_CURRENCIES = "currencies.json";
-    public static final String KEY_ASSETS_NAME_FOREX = "forex.json";
-    public static final String KEY_FOREX_RATE = "KEY_FOREX_RATE";
 
     public static final String SHARED_PREFERENCES = "SHARED_PREFERENCES";
     public static final String SHARED_PREFERENCES_BASE_CURRENCY_ID = "SHARED_PREFERENCES_BASE_CURRENCY_ID";

@@ -74,7 +74,7 @@ public class MainActivity extends BaseAppCompatActivity {
         mainRecycler.setAdapter(mainCurrencyAdapter);
 
         String forexRateListJSONString = sharedPreferences.getString(ConstantHelper.SHARED_PREFERENCES_SELECTED_CURRENCY_LIST, null);
-        mainCurrencyAdapter.setForexList((ArrayList<ForexRate>) convertJSONStringToObject(ConstantHelper.KEY_FOREX_RATE,forexRateListJSONString));
+        mainCurrencyAdapter.setForexList((ArrayList<ForexRate>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES,forexRateListJSONString));
         mainCurrencyAdapter.notifyDataSetChanged();
     }
 

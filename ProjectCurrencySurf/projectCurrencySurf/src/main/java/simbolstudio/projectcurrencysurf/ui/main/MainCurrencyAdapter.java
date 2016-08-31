@@ -64,10 +64,11 @@ public class MainCurrencyAdapter extends RecyclerView.Adapter<MainCurrencyViewHo
         if (holder != null && forexList != null && position < forexList.size()) {
             ForexRate forexRate = forexList.get(position);
             Uri uri = new Uri.Builder()
-                    .scheme(UriUtil.LOCAL_RESOURCE_SCHEME) // "res"
+                    .scheme(UriUtil.LOCAL_RESOURCE_SCHEME)
                     .path(String.valueOf(((MainActivity) context).getCurrencyIcon(forexRate.getId())))
                     .build();
-            holder.getCurrencyImg().setImageURI(uri);
+
+            holder.bindData(uri, forexRate.getId(),forexRate.getCurrencyNm());
 
         }
     }
