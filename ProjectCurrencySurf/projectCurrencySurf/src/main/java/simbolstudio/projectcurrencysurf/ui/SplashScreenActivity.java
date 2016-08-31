@@ -1,6 +1,7 @@
 package simbolstudio.projectcurrencysurf.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
@@ -17,16 +18,20 @@ import simbolstudio.projectcurrencysurf.R;
 import simbolstudio.projectcurrencysurf.base.ui.BaseAppCompatActivity;
 import simbolstudio.projectcurrencysurf.common.ConstantHelper;
 import simbolstudio.projectcurrencysurf.controller.OkHttpClientSingleton;
-import simbolstudio.projectcurrencysurf.model.Country;
-import simbolstudio.projectcurrencysurf.model.CurrencyType;
+import simbolstudio.projectcurrencysurf.model.ForexRate;
 import simbolstudio.projectcurrencysurf.model.YQLCurrencyQueryResponse;
+import simbolstudio.projectcurrencysurf.ui.main.MainActivity;
 
 public class SplashScreenActivity extends BaseAppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    String baseCurrency;
-    String currencyRateJSONString;
+    String baseCurrencyId;
+    String currencyRateListJSONString;
+    String selectedCurrencyListJSONString;
     Long lastUpdate;
+    YQLCurrencyQueryResponse yqlCurrencyQueryResponse;
+    boolean flag;
+    ArrayList<ForexRate> forexList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +59,14 @@ public class SplashScreenActivity extends BaseAppCompatActivity {
         setLocalCountryISO();
         getCurrencyRate();
 
-        ArrayList<Country> countryList = (ArrayList<Country>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_COUNTRIES, loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_COUNTRIES));
-        ArrayList<CurrencyType> currencyList = (ArrayList<CurrencyType>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES));
-
-
+//        ArrayList<Country> countryList = (ArrayList<Country>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_COUNTRIES, loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_COUNTRIES));
+//        ArrayList<CurrencyType> currencyList = (ArrayList<CurrencyType>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES));
     }
 
     private void setLocalCountryISO() {
-        if (sharedPreferences != null & editor != null) {
-            baseCurrency = sharedPreferences.getString(ConstantHelper.SHARED_PREFERENCES_BASE_CURRENCY, null);
-            if (baseCurrency == null) {
+        baseCurrencyId = sharedPreferences.getString(ConstantHelper.SHARED_PREFERENCES_BASE_CURRENCY_ID, null);
+        if (baseCurrencyId == null) {
+            if (sharedPreferences != null & editor != null) {
                 String countryISO = null;
                 TelephonyManager telephonyManager = (TelephonyManager) getSystemService(getActivityContext().TELEPHONY_SERVICE);
 
@@ -77,64 +80,121 @@ public class SplashScreenActivity extends BaseAppCompatActivity {
                     countryISO = getActivityContext().getResources().getConfiguration().locale.getISO3Country();
                 Log.v("debug", "locale " + countryISO);
 
-                if (countryISO == null)
-                    countryISO = "us";
+                if (countryISO != null) {
+                    baseCurrencyId = getCurrencyByCountryISO(countryISO);
+                    editor.putString(ConstantHelper.SHARED_PREFERENCES_BASE_CURRENCY_ID, baseCurrencyId);
+                }else{
+                    editor.putString(ConstantHelper.SHARED_PREFERENCES_BASE_CURRENCY_ID, ConstantHelper.DEFAULT_BASE_CURRENCY_ID);
+                }
 
-                baseCurrency = getCurrencyByCountryISO(countryISO);
-
-                editor.putString(ConstantHelper.SHARED_PREFERENCES_BASE_CURRENCY, baseCurrency);
                 editor.commit();
             }
         }
     }
 
+    private void setSelectedCurrency() {
+        selectedCurrencyListJSONString = sharedPreferences.getString(ConstantHelper.SHARED_PREFERENCES_SELECTED_CURRENCY_LIST, null);
+        if (selectedCurrencyListJSONString == null) {
+            if (yqlCurrencyQueryResponse != null)
+                forexList = yqlCurrencyQueryResponse.getQuery().getResults().getRate();
+
+            if (forexList == null) {
+                currencyRateListJSONString = sharedPreferences.getString(ConstantHelper.SHARED_PREFERENCES_CURRENCY_RATE_LIST, null);
+                if (currencyRateListJSONString != null)
+                    forexList = (ArrayList<ForexRate>) convertJSONStringToObject(ConstantHelper.KEY_FOREX_RATE, currencyRateListJSONString);
+            }
+
+
+            if (forexList != null && sharedPreferences != null && editor != null) {
+                ArrayList<ForexRate> selectedForexList = new ArrayList<>();
+                selectedForexList.add(getForexById(baseCurrencyId + baseCurrencyId, forexList));
+                boolean found = false;
+                for (int i = 0; i < forexList.size();i++){// && selectedForexList.size() < 5; i++) {
+                    found = false;
+                    for (int j = 0; j < selectedForexList.size(); j++) {
+                        if (selectedForexList.get(j).getId().equalsIgnoreCase(forexList.get(i).getId()))
+                            found = true;
+                    }
+                    if (!found)
+                        selectedForexList.add(forexList.get(i));
+                }
+                selectedCurrencyListJSONString= convertObjectToJSONString(ConstantHelper.KEY_FOREX_RATE,selectedForexList);
+                if (sharedPreferences != null & editor != null && selectedCurrencyListJSONString != null) {
+
+                    editor.putString(ConstantHelper.SHARED_PREFERENCES_SELECTED_CURRENCY_LIST, selectedCurrencyListJSONString);
+                    editor.commit();
+                }
+            }
+        }
+        finishLoad();
+    }
+
+
     private void getCurrencyRate() {
-        currencyRateJSONString = sharedPreferences.getString(ConstantHelper.SHARED_PREFERENCES_CURRENCY_RATE_LIST, null);
+        currencyRateListJSONString = sharedPreferences.getString(ConstantHelper.SHARED_PREFERENCES_CURRENCY_RATE_LIST, null);
         lastUpdate = sharedPreferences.getLong(ConstantHelper.SHARED_PREFERENCES_LAST_UPDATE, 0);
-        if (currencyRateJSONString == null || lastUpdate==0) {
+        if (currencyRateListJSONString == null || lastUpdate == 0) {
             final OkHttpClientSingleton okHttpClientSingleton = new OkHttpClientSingleton().getInstance();
             try {
                 Callback mCallback = new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         ongetCurrencyRateFail();
+                        setSelectedCurrency();
                     }
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
-                        if (!response.isSuccessful())
-                            ongetCurrencyRateNotSuccess();
+                        if (!response.isSuccessful()){
+                            ongetCurrencyRateFail();
+                            setSelectedCurrency();
+                        }
 
-                        ongetCurrencyRate(okHttpClientSingleton.getmGson().fromJson(response.body().charStream(), YQLCurrencyQueryResponse.class));
+                        yqlCurrencyQueryResponse = okHttpClientSingleton.getmGson().fromJson(response.body().charStream(), YQLCurrencyQueryResponse.class);
+                        ongetCurrencyRate();
+                        setSelectedCurrency();
                     }
                 };
 
-                okHttpClientSingleton.setParameter(getYQL(baseCurrency), mCallback);
+                okHttpClientSingleton.setParameter(getYQL(baseCurrencyId), mCallback);
                 okHttpClientSingleton.run();
             } catch (Exception ex) {
                 ex.printStackTrace();
+                ongetCurrencyRateFail();
             }
-        }
+        }else
+            setSelectedCurrency();
     }
 
-    private void ongetCurrencyRate(YQLCurrencyQueryResponse response) {
+    private void ongetCurrencyRate() {
 //        expected
-        if (sharedPreferences != null & editor != null) {
-            currencyRateJSONString = convertObjectToJSONString(ConstantHelper.KEY_CURRENCY_RATE, response.getQuery().getResults().getRate());
+        if (sharedPreferences != null & editor != null && yqlCurrencyQueryResponse != null) {
+            currencyRateListJSONString = convertObjectToJSONString(ConstantHelper.KEY_FOREX_RATE, yqlCurrencyQueryResponse.getQuery().getResults().getRate());
 
             editor.putLong(ConstantHelper.SHARED_PREFERENCES_LAST_UPDATE, new Date().getTime());
-            editor.putString(ConstantHelper.SHARED_PREFERENCES_BASE_CURRENCY, currencyRateJSONString);
+            editor.putString(ConstantHelper.SHARED_PREFERENCES_CURRENCY_RATE_LIST, currencyRateListJSONString);
             editor.commit();
         }
-    }
 
-    private void ongetCurrencyRateNotSuccess() {
-//        backup
-
+        setSelectedCurrency();
     }
 
     private void ongetCurrencyRateFail() {
-//        connectivity
+        //backup
+        currencyRateListJSONString= loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_FOREX);
+        if (sharedPreferences != null & editor != null && yqlCurrencyQueryResponse != null) {
 
+            editor.putLong(ConstantHelper.SHARED_PREFERENCES_LAST_UPDATE, new Date().getTime());//this update time
+            editor.putString(ConstantHelper.SHARED_PREFERENCES_CURRENCY_RATE_LIST, currencyRateListJSONString);
+            editor.commit();
+        }
+        setSelectedCurrency();
+    }
+
+    private void finishLoad() {
+        Intent intent = new Intent(getActivityContext(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 }
