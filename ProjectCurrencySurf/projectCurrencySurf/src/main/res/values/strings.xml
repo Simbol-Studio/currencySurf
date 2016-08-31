@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">ProjectCurrencySurf</string>
+    <string name="app_name">CurrencySurf</string>
+
+    <string name="main_activity_title">CurrencySurf</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="roboto_medium">sans-serif_medium</string>
-    <string name="roboto_light">sans-serif_light</string>
-    <string name="roboto_regular">sans-serif_regular</string>
+    <string name="roboto_medium">sans-serif-medium</string>
+    <string name="roboto_light">sans-serif-light</string>
+    <string name="roboto_regular">sans-serif-regular</string>
 </resources>
