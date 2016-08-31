@@ -9,6 +9,7 @@ public class ForexRate implements Serializable {
     String id;
     String Name;
     Double Rate;
+    private double amountEntered;
 
     public String getId() {
         return id;
@@ -21,4 +22,13 @@ public class ForexRate implements Serializable {
     public String getName() {
         return Name;
     }
+
+    public double getAmountEntered() {
+        return amountEntered;
+    }
+
+    public void setAmountEntered(double amountEntered) {
+        this.amountEntered = amountEntered;
+    }
+
 }
