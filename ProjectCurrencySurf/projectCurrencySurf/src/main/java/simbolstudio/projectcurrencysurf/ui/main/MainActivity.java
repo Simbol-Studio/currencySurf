@@ -49,7 +49,7 @@ public class MainActivity extends BaseAppCompatActivity {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refreshCurrencyRateList();
+                refreshForexRateList();
             }
         });
 
@@ -73,8 +73,8 @@ public class MainActivity extends BaseAppCompatActivity {
         mainCurrencyAdapter = new MainCurrencyAdapter(getActivityContext());
         mainRecycler.setAdapter(mainCurrencyAdapter);
 
-        String currencyRateListJSONString = sharedPreferences.getString(ConstantHelper.SHARED_PREFERENCES_SELECTED_CURRENCY_LIST, null);
-        mainCurrencyAdapter.setForexList((ArrayList<ForexRate>) convertJSONStringToObject(ConstantHelper.KEY_FOREX_RATE,currencyRateListJSONString));
+        String forexRateListJSONString = sharedPreferences.getString(ConstantHelper.SHARED_PREFERENCES_SELECTED_CURRENCY_LIST, null);
+        mainCurrencyAdapter.setForexList((ArrayList<ForexRate>) convertJSONStringToObject(ConstantHelper.KEY_FOREX_RATE,forexRateListJSONString));
         mainCurrencyAdapter.notifyDataSetChanged();
     }
 
@@ -101,7 +101,7 @@ public class MainActivity extends BaseAppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void refreshCurrencyRateList() {
+    public void refreshForexRateList() {
 
     }
 

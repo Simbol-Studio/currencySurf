@@ -26,7 +26,7 @@ public class SplashScreenActivity extends BaseAppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String baseCurrencyId;
-    String currencyRateListJSONString;
+    String forexRateListJSONString;
     String selectedCurrencyListJSONString;
     Long lastUpdate;
     YQLCurrencyQueryResponse yqlCurrencyQueryResponse;
@@ -57,7 +57,7 @@ public class SplashScreenActivity extends BaseAppCompatActivity {
         editor = sharedPreferences.edit();
 
         setLocalCountryISO();
-        getCurrencyRate();
+        getForexRate();
 
 //        ArrayList<Country> countryList = (ArrayList<Country>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_COUNTRIES, loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_COUNTRIES));
 //        ArrayList<CurrencyType> currencyList = (ArrayList<CurrencyType>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES));
@@ -99,9 +99,9 @@ public class SplashScreenActivity extends BaseAppCompatActivity {
                 forexList = yqlCurrencyQueryResponse.getQuery().getResults().getRate();
 
             if (forexList == null) {
-                currencyRateListJSONString = sharedPreferences.getString(ConstantHelper.SHARED_PREFERENCES_CURRENCY_RATE_LIST, null);
-                if (currencyRateListJSONString != null)
-                    forexList = (ArrayList<ForexRate>) convertJSONStringToObject(ConstantHelper.KEY_FOREX_RATE, currencyRateListJSONString);
+                forexRateListJSONString = sharedPreferences.getString(ConstantHelper.SHARED_PREFERENCES_FOREX_RATE_LIST, null);
+                if (forexRateListJSONString != null)
+                    forexList = (ArrayList<ForexRate>) convertJSONStringToObject(ConstantHelper.KEY_FOREX_RATE, forexRateListJSONString);
             }
 
 
@@ -130,28 +130,28 @@ public class SplashScreenActivity extends BaseAppCompatActivity {
     }
 
 
-    private void getCurrencyRate() {
-        currencyRateListJSONString = sharedPreferences.getString(ConstantHelper.SHARED_PREFERENCES_CURRENCY_RATE_LIST, null);
+    private void getForexRate() {
+        forexRateListJSONString = sharedPreferences.getString(ConstantHelper.SHARED_PREFERENCES_FOREX_RATE_LIST, null);
         lastUpdate = sharedPreferences.getLong(ConstantHelper.SHARED_PREFERENCES_LAST_UPDATE, 0);
-        if (currencyRateListJSONString == null || lastUpdate == 0) {
+        if (forexRateListJSONString == null || lastUpdate == 0) {
             final OkHttpClientSingleton okHttpClientSingleton = new OkHttpClientSingleton().getInstance();
             try {
                 Callback mCallback = new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
-                        ongetCurrencyRateFail();
+                        ongetForexRateFail();
                         setSelectedCurrency();
                     }
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
                         if (!response.isSuccessful()){
-                            ongetCurrencyRateFail();
+                            ongetForexRateFail();
                             setSelectedCurrency();
                         }
 
                         yqlCurrencyQueryResponse = okHttpClientSingleton.getmGson().fromJson(response.body().charStream(), YQLCurrencyQueryResponse.class);
-                        ongetCurrencyRate();
+                        ongetForexRate();
                         setSelectedCurrency();
                     }
                 };
@@ -160,32 +160,32 @@ public class SplashScreenActivity extends BaseAppCompatActivity {
                 okHttpClientSingleton.run();
             } catch (Exception ex) {
                 ex.printStackTrace();
-                ongetCurrencyRateFail();
+                ongetForexRateFail();
             }
         }else
             setSelectedCurrency();
     }
 
-    private void ongetCurrencyRate() {
+    private void ongetForexRate() {
 //        expected
         if (sharedPreferences != null & editor != null && yqlCurrencyQueryResponse != null) {
-            currencyRateListJSONString = convertObjectToJSONString(ConstantHelper.KEY_FOREX_RATE, yqlCurrencyQueryResponse.getQuery().getResults().getRate());
+            forexRateListJSONString = convertObjectToJSONString(ConstantHelper.KEY_FOREX_RATE, yqlCurrencyQueryResponse.getQuery().getResults().getRate());
 
             editor.putLong(ConstantHelper.SHARED_PREFERENCES_LAST_UPDATE, new Date().getTime());
-            editor.putString(ConstantHelper.SHARED_PREFERENCES_CURRENCY_RATE_LIST, currencyRateListJSONString);
+            editor.putString(ConstantHelper.SHARED_PREFERENCES_FOREX_RATE_LIST, forexRateListJSONString);
             editor.commit();
         }
 
         setSelectedCurrency();
     }
 
-    private void ongetCurrencyRateFail() {
+    private void ongetForexRateFail() {
         //backup
-        currencyRateListJSONString= loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_FOREX);
+        forexRateListJSONString= loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_FOREX);
         if (sharedPreferences != null & editor != null && yqlCurrencyQueryResponse != null) {
 
             editor.putLong(ConstantHelper.SHARED_PREFERENCES_LAST_UPDATE, new Date().getTime());//this update time
-            editor.putString(ConstantHelper.SHARED_PREFERENCES_CURRENCY_RATE_LIST, currencyRateListJSONString);
+            editor.putString(ConstantHelper.SHARED_PREFERENCES_FOREX_RATE_LIST, forexRateListJSONString);
             editor.commit();
         }
         setSelectedCurrency();
