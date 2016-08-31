@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:elevation="@dimen/_4_dp"
+    android:background="@color/black"
     android:minHeight="?attr/actionBarSize"
     >
     <!--android:background=""-->
