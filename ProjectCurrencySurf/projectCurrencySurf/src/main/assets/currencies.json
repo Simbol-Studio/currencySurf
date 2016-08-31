@@ -1,5 +1,69 @@
 [
   {
+    "currencyNm": "United States Dollar",
+    "currencySymbol": "$",
+    "id": "USD"
+  },
+  {
+    "currencyNm": "European Euro",
+    "currencySymbol": "€",
+    "id": "EUR"
+  },
+  {
+    "currencyNm": "British Pound",
+    "currencySymbol": "£",
+    "id": "GBP"
+  },
+  {
+    "currencyNm": "Chinese Renminbi",
+    "currencySymbol": "¥",
+    "id": "CNY"
+  },
+  {
+    "currencyNm": "Japanese Yen",
+    "currencySymbol": "¥",
+    "id": "JPY"
+  },
+  {
+    "currencyNm": "Indian Rupee",
+    "currencySymbol": "₹",
+    "id": "INR"
+  },
+  {
+    "currencyNm": "UAE Dirham",
+    "id": "AED"
+  },
+  {
+    "currencyNm": "Singapore Dollar",
+    "currencySymbol": "$",
+    "id": "SGD"
+  },
+  {
+    "currencyNm": "South Korean Won",
+    "currencySymbol": "₩",
+    "id": "KRW"
+  },
+  {
+    "currencyNm": "Bitcoin",
+    "currencySymbol": "BTC",
+    "id": "BTC"
+  },
+  {
+    "currencyNm": "Brazilian Real",
+    "currencySymbol": "R$",
+    "id": "BRL"
+  },
+  {
+    "currencyNm": "Mexican Peso",
+    "currencySymbol": "$",
+    "id": "MXN"
+  },
+  {
+    "currencyNm": "Russian Ruble",
+    "currencySymbol": "руб",
+    "id": "RUB"
+  },
+  {
     "currencyNm": "Samoan Tala",
     "id": "WST"
   },
@@ -157,10 +221,6 @@
     "id": "TRY"
   },
   {
-    "currencyNm": "UAE Dirham",
-    "id": "AED"
-  },
-  {
     "currencyNm": "Vanuatu Vatu",
     "id": "VUV"
   },
@@ -284,11 +344,6 @@
     "id": "MKD"
   },
   {
-    "currencyNm": "Indian Rupee",
-    "currencySymbol": "₹",
-    "id": "INR"
-  },
-  {
     "currencyNm": "Tanzanian Shilling",
     "currencySymbol": "TSh",
     "id": "TZS"
@@ -302,11 +357,6 @@
     "currencyNm": "Swedish Krona",
     "currencySymbol": "kr",
     "id": "SEK"
-  },
-  {
-    "currencyNm": "Chinese Renminbi",
-    "currencySymbol": "¥",
-    "id": "CNY"
   },
   {
     "currencyNm": "Bahamian Dollar",
@@ -332,11 +382,6 @@
     "currencyNm": "Czech Koruna",
     "currencySymbol": "Kč",
     "id": "CZK"
-  },
-  {
-    "currencyNm": "South Korean Won",
-    "currencySymbol": "₩",
-    "id": "KRW"
   },
   {
     "currencyNm": "Guatemalan Quetzal",
@@ -449,11 +494,6 @@
     "id": "SAR"
   },
   {
-    "currencyNm": "Singapore Dollar",
-    "currencySymbol": "$",
-    "id": "SGD"
-  },
-  {
     "currencyNm": "Romanian Leu",
     "currencySymbol": "lei",
     "id": "RON"
@@ -524,11 +564,6 @@
     "id": "ISK"
   },
   {
-    "currencyNm": "Japanese Yen",
-    "currencySymbol": "¥",
-    "id": "JPY"
-  },
-  {
     "currencyNm": "North Korean Won",
     "currencySymbol": "₩",
     "id": "KPW"
@@ -589,11 +624,6 @@
     "id": "TTD"
   },
   {
-    "currencyNm": "Brazilian Real",
-    "currencySymbol": "R$",
-    "id": "BRL"
-  },
-  {
     "currencyNm": "Croatian Kuna",
     "currencySymbol": "kn",
     "id": "HRK"
@@ -648,11 +678,6 @@
     "id": "NAD"
   },
   {
-    "currencyNm": "Russian Ruble",
-    "currencySymbol": "руб",
-    "id": "RUB"
-  },
-  {
     "currencyNm": "Kyrgyzstani Som",
     "currencySymbol": "лв",
     "id": "KGS"
@@ -678,11 +703,6 @@
     "id": "KES"
   },
   {
-    "currencyNm": "Mexican Peso",
-    "currencySymbol": "$",
-    "id": "MXN"
-  },
-  {
     "currencyNm": "Ugandan Shilling",
     "currencySymbol": "USh",
     "id": "UGX"
@@ -698,23 +718,8 @@
     "id": "UAH"
   },
   {
-    "currencyNm": "British Pound",
-    "currencySymbol": "£",
-    "id": "GBP"
-  },
-  {
-    "currencyNm": "United States Dollar",
-    "currencySymbol": "$",
-    "id": "USD"
-  },
-  {
     "currencyNm": "Cuban Peso",
     "currencySymbol": "$",
     "id": "CUP"
-  },
-  {
-    "currencyNm": "Bitcoin",
-    "currencySymbol": "BTC",
-    "id": "BTC"
   }
 ]
