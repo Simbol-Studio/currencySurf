@@ -1,0 +1,932 @@
+[
+  {
+    "Name": "MYR/USD",
+    "Rate": 0.2475,
+    "id": "MYRUSD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/EUR",
+    "Rate": 0.2218,
+    "id": "MYREUR",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/GBP",
+    "Rate": 0.1892,
+    "id": "MYRGBP",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/CNY",
+    "Rate": 1.6534,
+    "id": "MYRCNY",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/JPY",
+    "Rate": 25.239,
+    "id": "MYRJPY",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/INR",
+    "Rate": 16.648,
+    "id": "MYRINR",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/AED",
+    "Rate": 0.9113,
+    "id": "MYRAED",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/SGD",
+    "Rate": 0.3366,
+    "id": "MYRSGD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/KRW",
+    "Rate": 278.19,
+    "id": "MYRKRW",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/BTC",
+    "Rate": 4.0E-4,
+    "id": "MYRBTC",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/BRL",
+    "Rate": 0.8094,
+    "id": "MYRBRL",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/MXN",
+    "Rate": 4.6149,
+    "id": "MYRMXN",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/RUB",
+    "Rate": 16.0488,
+    "id": "MYRRUB",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/WST",
+    "Rate": 0.6279,
+    "id": "MYRWST",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/BTN",
+    "Rate": 16.6315,
+    "id": "MYRBTN",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/PGK",
+    "Rate": 0.7841,
+    "id": "MYRPGK",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/AMD",
+    "Rate": 117.8164,
+    "id": "MYRAMD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/CVE",
+    "Rate": 24.2432,
+    "id": "MYRCVE",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/LYD",
+    "Rate": 0.3404,
+    "id": "MYRLYD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/RWF",
+    "Rate": 197.7295,
+    "id": "MYRRWF",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/GEL",
+    "Rate": 0.5689,
+    "id": "MYRGEL",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/ERN",
+    "Rate": 3.871,
+    "id": "MYRERN",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/KWD",
+    "Rate": 0.0746,
+    "id": "MYRKWD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/BHD",
+    "Rate": 0.0935,
+    "id": "MYRBHD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/HTG",
+    "Rate": 15.9032,
+    "id": "MYRHTG",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/MZN",
+    "Rate": 17.933,
+    "id": "MYRMZN",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/JOD",
+    "Rate": 0.1756,
+    "id": "MYRJOD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/MRO",
+    "Rate": 87.593,
+    "id": "MYRMRO",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/SLL",
+    "Rate": 1388.5856,
+    "id": "MYRSLL",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/MWK",
+    "Rate": 176.6873,
+    "id": "MYRMWK",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/XPF",
+    "Rate": 26.0943,
+    "id": "MYRXPF",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/RSD",
+    "Rate": 27.0357,
+    "id": "MYRRSD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/OMR",
+    "Rate": 0.0955,
+    "id": "MYROMR",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/CRC",
+    "Rate": 135.4913,
+    "id": "MYRCRC",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/MNT",
+    "Rate": 552.8536,
+    "id": "MYRMNT",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/NGN",
+    "Rate": 78.1017,
+    "id": "MYRNGN",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/STD",
+    "Rate": 5377.4189,
+    "id": "MYRSTD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/AOA",
+    "Rate": 40.9586,
+    "id": "MYRAOA",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/BIF",
+    "Rate": 410.1241,
+    "id": "MYRBIF",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/LSL",
+    "Rate": 3.5619,
+    "id": "MYRLSL",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/MMK",
+    "Rate": 299.2556,
+    "id": "MYRMMK",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/TOP",
+    "Rate": 0.5594,
+    "id": "MYRTOP",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/VEF",
+    "Rate": 2.4751,
+    "id": "MYRVEF",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/DZD",
+    "Rate": 26.8958,
+    "id": "MYRDZD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/CDF",
+    "Rate": 241.1911,
+    "id": "MYRCDF",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/GMD",
+    "Rate": 10.3846,
+    "id": "MYRGMD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/IQD",
+    "Rate": 288.8337,
+    "id": "MYRIQD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/MGA",
+    "Rate": 752.6054,
+    "id": "MYRMGA",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/MDL",
+    "Rate": 4.8759,
+    "id": "MYRMDL",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/MAD",
+    "Rate": 2.3943,
+    "id": "MYRMAD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/TRY",
+    "Rate": 0.7325,
+    "id": "MYRTRY",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/VUV",
+    "Rate": 26.0496,
+    "id": "MYRVUV",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/BDT",
+    "Rate": 19.4218,
+    "id": "MYRBDT",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/ETB",
+    "Rate": 5.4342,
+    "id": "MYRETB",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/KMF",
+    "Rate": 110.9801,
+    "id": "MYRKMF",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/MVR",
+    "Rate": 3.7593,
+    "id": "MYRMVR",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/SZL",
+    "Rate": 3.4859,
+    "id": "MYRSZL",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/DJF",
+    "Rate": 43.66,
+    "id": "MYRDJF",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/GNF",
+    "Rate": 2230.2729,
+    "id": "MYRGNF",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/GHS",
+    "Rate": 0.962,
+    "id": "MYRGHS",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/ZMW",
+    "Rate": 2.4169,
+    "id": "MYRZMW",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/MOP",
+    "Rate": 1.9822,
+    "id": "MYRMOP",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/TJS",
+    "Rate": 1.9524,
+    "id": "MYRTJS",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/TND",
+    "Rate": 0.5435,
+    "id": "MYRTND",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/TMT",
+    "Rate": 0.8462,
+    "id": "MYRTMT",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/XOF",
+    "Rate": 144.1836,
+    "id": "MYRXOF",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/XAF",
+    "Rate": 145.2308,
+    "id": "MYRXAF",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/XCD",
+    "Rate": 0.67,
+    "id": "MYRXCD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/SDG",
+    "Rate": 1.5062,
+    "id": "MYRSDG",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/ALL",
+    "Rate": 30.0496,
+    "id": "MYRALL",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/BBD",
+    "Rate": 0.4963,
+    "id": "MYRBBD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/BND",
+    "Rate": 0.3355,
+    "id": "MYRBND",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/HUF",
+    "Rate": 67.8164,
+    "id": "MYRHUF",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/JMD",
+    "Rate": 31.4516,
+    "id": "MYRJMD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/AUD",
+    "Rate": 0.3278,
+    "id": "MYRAUD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/GIP",
+    "Rate": 0.1889,
+    "id": "MYRGIP",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/NZD",
+    "Rate": 0.3429,
+    "id": "MYRNZD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/FKP",
+    "Rate": 0.1888,
+    "id": "MYRFKP",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/MKD",
+    "Rate": 13.4814,
+    "id": "MYRMKD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/TZS",
+    "Rate": 541.4391,
+    "id": "MYRTZS",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/BAM",
+    "Rate": 0.434,
+    "id": "MYRBAM",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/SEK",
+    "Rate": 2.1012,
+    "id": "MYRSEK",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/BSD",
+    "Rate": 0.2481,
+    "id": "MYRBSD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/BWP",
+    "Rate": 2.6357,
+    "id": "MYRBWP",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/LAK",
+    "Rate": 2008.6848,
+    "id": "MYRLAK",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/SYP",
+    "Rate": 53.2382,
+    "id": "MYRSYP",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/CZK",
+    "Rate": 5.9806,
+    "id": "MYRCZK",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/GTQ",
+    "Rate": 1.8743,
+    "id": "MYRGTQ",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/SOS",
+    "Rate": 136.2283,
+    "id": "MYRSOS",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/DKK",
+    "Rate": 1.6494,
+    "id": "MYRDKK",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/PEN",
+    "Rate": 0.8283,
+    "id": "MYRPEN",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/COP",
+    "Rate": 719.1067,
+    "id": "MYRCOP",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/LBP",
+    "Rate": 373.3002,
+    "id": "MYRLBP",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/QAR",
+    "Rate": 0.9034,
+    "id": "MYRQAR",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/BZD",
+    "Rate": 0.4913,
+    "id": "MYRBZD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/KZT",
+    "Rate": 84.1191,
+    "id": "MYRKZT",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/MUR",
+    "Rate": 8.6551,
+    "id": "MYRMUR",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/AWG",
+    "Rate": 0.4442,
+    "id": "MYRAWG",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/KYD",
+    "Rate": 0.2035,
+    "id": "MYRKYD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/IDR",
+    "Rate": 3285.3,
+    "id": "MYRIDR",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/EUR",
+    "Rate": 0.2218,
+    "id": "MYREUR",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/IRR",
+    "Rate": 7457.0718,
+    "id": "MYRIRR",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/ILS",
+    "Rate": 0.9361,
+    "id": "MYRILS",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/MYR",
+    "Rate": 1.0,
+    "id": "MYRMYR",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/HNL",
+    "Rate": 5.6576,
+    "id": "MYRHNL",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/PAB",
+    "Rate": 0.249,
+    "id": "MYRPAB",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/PHP",
+    "Rate": 11.505,
+    "id": "MYRPHP",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/ZAR",
+    "Rate": 3.5196,
+    "id": "MYRZAR",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/SAR",
+    "Rate": 0.9305,
+    "id": "MYRSAR",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/RON",
+    "Rate": 0.9864,
+    "id": "MYRRON",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/SRD",
+    "Rate": 1.8114,
+    "id": "MYRSRD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/TWD",
+    "Rate": 7.8601,
+    "id": "MYRTWD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/ARS",
+    "Rate": 3.7174,
+    "id": "MYRARS",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/AZN",
+    "Rate": 0.4038,
+    "id": "MYRAZN",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/BYR",
+    "Rate": 4967.7417,
+    "id": "MYRBYR",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/BGN",
+    "Rate": 0.4299,
+    "id": "MYRBGN",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/BOB",
+    "Rate": 1.7022,
+    "id": "MYRBOB",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/CAD",
+    "Rate": 0.3216,
+    "id": "MYRCAD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/CLP",
+    "Rate": 166.7221,
+    "id": "MYRCLP",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/DOP",
+    "Rate": 11.4094,
+    "id": "MYRDOP",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/FJD",
+    "Rate": 0.5074,
+    "id": "MYRFJD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/GYD",
+    "Rate": 50.8685,
+    "id": "MYRGYD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/ISK",
+    "Rate": 28.8412,
+    "id": "MYRISK",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/KPW",
+    "Rate": 223.3251,
+    "id": "MYRKPW",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/LVL",
+    "Rate": 0.154,
+    "id": "MYRLVL",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/CHF",
+    "Rate": 0.2423,
+    "id": "MYRCHF",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/NPR",
+    "Rate": 26.5261,
+    "id": "MYRNPR",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/NIO",
+    "Rate": 7.1543,
+    "id": "MYRNIO",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/PKR",
+    "Rate": 25.939,
+    "id": "MYRPKR",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/PYG",
+    "Rate": 1368.4863,
+    "id": "MYRPYG",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/SBD",
+    "Rate": 1.9456,
+    "id": "MYRSBD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/LKR",
+    "Rate": 36.0868,
+    "id": "MYRLKR",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/YER",
+    "Rate": 62.0223,
+    "id": "MYRYER",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/ZWL",
+    "Rate": 79.9888,
+    "id": "MYRZWL",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/TTD",
+    "Rate": 1.6551,
+    "id": "MYRTTD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/HRK",
+    "Rate": 1.6508,
+    "id": "MYRHRK",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/SCR",
+    "Rate": 3.2625,
+    "id": "MYRSCR",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/THB",
+    "Rate": 8.567,
+    "id": "MYRTHB",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/AFN",
+    "Rate": 16.5831,
+    "id": "MYRAFN",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/NOK",
+    "Rate": 2.0522,
+    "id": "MYRNOK",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/KHR",
+    "Rate": 1005.7072,
+    "id": "MYRKHR",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/EGP",
+    "Rate": 2.1979,
+    "id": "MYREGP",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/HKD",
+    "Rate": 1.9229,
+    "id": "MYRHKD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/LRD",
+    "Rate": 22.8288,
+    "id": "MYRLRD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/BMD",
+    "Rate": 0.2482,
+    "id": "MYRBMD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/NAD",
+    "Rate": 3.4888,
+    "id": "MYRNAD",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/KGS",
+    "Rate": 17.0623,
+    "id": "MYRKGS",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/PLN",
+    "Rate": 0.9608,
+    "id": "MYRPLN",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/UYU",
+    "Rate": 7.1489,
+    "id": "MYRUYU",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/VND",
+    "Rate": 5534.7393,
+    "id": "MYRVND",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/KES",
+    "Rate": 25.1315,
+    "id": "MYRKES",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/UGX",
+    "Rate": 835.732,
+    "id": "MYRUGX",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/UZS",
+    "Rate": 739.454,
+    "id": "MYRUZS",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/UAH",
+    "Rate": 6.3176,
+    "id": "MYRUAH",
+    "amountEntered": 0.0
+  },
+  {
+    "Name": "MYR/CUP",
+    "Rate": 0.2481,
+    "id": "MYRCUP",
+    "amountEntered": 0.0
+  }
+]
