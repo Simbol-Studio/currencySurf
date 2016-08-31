@@ -58,27 +58,37 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
         return toolbar;
     }
 
-    protected void setupToolbar(int activityToolbarResourceId, String toolbarTitle, boolean isBack){
-        if(activityToolbarResourceId!=0){
-            if(toolbar==null){
-                toolbar=(Toolbar)findViewById(activityToolbarResourceId);
+    protected void setupToolbar(int activityToolbarResourceId, String toolbarTitle, boolean isBack) {
+        if (activityToolbarResourceId != 0) {
+            if (toolbar == null) {
+                toolbar = (Toolbar) findViewById(activityToolbarResourceId);
             }
 
             TextView titleTV = null;
-            for(int i =0;i<toolbar.getChildCount();i++){
+            for (int i = 0; i < toolbar.getChildCount(); i++) {
                 View child = toolbar.getChildAt(i);
-                if(child instanceof TextView){
-                    titleTV=(TextView)child;
+                if (child instanceof TextView) {
+                    titleTV = (TextView) child;
                     titleTV.setText(toolbarTitle);
-                    if(Build.VERSION.SDK_INT<23){
+                    if (Build.VERSION.SDK_INT < 23) {
                         titleTV.setTextAppearance(getActivityContext(), R.style.TitleText);
-                    }else{
+                    } else {
                         titleTV.setTextAppearance(R.style.TitleText);
                     }
                     titleTV.setTextColor(getResources().getColor(R.color.amber_50));
                     break;
                 }
             }
+
+            if (titleTV == null) {
+                toolbar.setTitle(toolbarTitle);
+                toolbar.setTitleTextAppearance(getActivityContext(), R.style.TitleText);
+                toolbar.setTitleTextColor(getResources().getColor(R.color.amber_50));
+            }
+            if (isBack) {
+                toolbar.setNavigationIcon(R.drawable.aed);
+            }
+            setSupportActionBar(toolbar);
         }
 
     }
@@ -140,9 +150,16 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
                     }.getType();
                     List<CurrencyType> resultList = gson.fromJson(jsonString, collectionType);
                     return resultList;
-                } else if (key.equalsIgnoreCase(ConstantHelper.KEY_CURRENCY_RATE)) {
-                    return null;
-                } else {
+                } else if (key.equalsIgnoreCase(ConstantHelper.KEY_FOREX_RATE)) {
+                    Type collectionType = new TypeToken<List<ForexRate>>() {
+                    }.getType();
+                    List<ForexRate> resultList = gson.fromJson(jsonString, collectionType);
+                    return resultList;
+                }
+//                else if(key.equalsIgnoreCase(ConstantHelper.KEY_SELECTED_CURRENCY)){
+//                    return null;
+//                }
+                else {
                     return null;
                 }
             } catch (Exception ex) {
@@ -156,11 +173,13 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     public String convertObjectToJSONString(String key, ArrayList<ForexRate> forexRateArrayList) {
         Gson gson = new Gson();
         try {
-            if (key.equalsIgnoreCase(ConstantHelper.KEY_CURRENCY_RATE) && forexRateArrayList != null) {
+            if (key.equalsIgnoreCase(ConstantHelper.KEY_FOREX_RATE) && forexRateArrayList != null) {
                 return gson.toJson(forexRateArrayList);
-            } else if (key.equalsIgnoreCase(ConstantHelper.KEY_CURRENCY_RATE)) {
-                return null;
-            } else {
+            }
+//            else if (key.equalsIgnoreCase(ConstantHelper.KEY_FOREX_RATE)) {
+//                return null;
+//            }
+            else {
                 return null;
             }
         } catch (Exception ex) {
@@ -178,9 +197,9 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
                     return countryList.get(i).getCurrencyCode();
                 }
             }
-            return ConstantHelper.DEFAULT_BASE_CURRENCY;
+            return ConstantHelper.DEFAULT_BASE_CURRENCY_ID;
         } else
-            return ConstantHelper.DEFAULT_BASE_CURRENCY;
+            return ConstantHelper.DEFAULT_BASE_CURRENCY_ID;
     }
 
     public String getYQL(String baseCurrency) {
@@ -196,5 +215,27 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
         uri += ")&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
 
         return uri;
+    }
+
+    public ForexRate getForexById(String forexId, ArrayList<ForexRate> forexList) {
+        if (forexList != null && forexList.size() > 0 && forexId != null && !forexId.equalsIgnoreCase("")) {
+            for (int i = 0; i < forexList.size(); i++) {
+                if (forexList.get(i).getId().equalsIgnoreCase(forexId))
+                    return forexList.get(i);
+            }
+            return null;
+        } else
+            return null;
+    }
+
+    public int getCurrencyIcon(String currencyId) {
+        if(currencyId.equalsIgnoreCase("try"))
+            currencyId="tryturkish";
+
+        int resourceId = getResources().getIdentifier(currencyId.substring(3).toLowerCase(), "drawable", getPackageName());
+        if (resourceId > 0)
+            return resourceId;
+        else
+            return R.drawable.usd;
     }
 }
