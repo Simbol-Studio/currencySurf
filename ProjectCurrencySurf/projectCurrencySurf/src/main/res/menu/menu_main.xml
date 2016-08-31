@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:simbolstudio="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/refresh"
+        android:icon="@drawable/ico_refresh"
+        android:orderInCategory="100"
+        android:title="@string/menu_refresh_exchange_rate"
+        simbolstudio:showAsAction="always" />
+    <item
+        android:id="@+id/addCurrency"
+        android:icon="@drawable/ico_plus"
+        android:orderInCategory="200"
+        android:title="@string/menu_add_currency"
+        simbolstudio:showAsAction="always" />
+    <item
+        android:id="@+id/setting"
+        android:orderInCategory="1000"
+        android:title="@string/menu_setting"
+        simbolstudio:showAsAction="never" />
+    <item
+        android:id="@+id/about"
+        android:orderInCategory="1000"
+        android:title="@string/menu_about"
+        simbolstudio:showAsAction="never" />
+</menu>

@@ -87,17 +87,17 @@ public class MainActivity extends BaseAppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-//        getMenuInflater().inflate(R.menu.cd, menu);
-//        fd = menu.findItem(dsfs)
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-//        Switch(item){
-//            case R.id.dsa:
-//                break;
-//        }
+        switch(item.getItemId()){
+            case R.id.setting:
+                Log.v("","");
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
