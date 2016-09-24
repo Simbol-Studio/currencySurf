@@ -30,9 +30,9 @@ public class OkHttpClientSingleton {
                     .connectTimeout(10, TimeUnit.SECONDS)
                     .writeTimeout(ConstantHelper.TIMEOUT_SECONDS, TimeUnit.SECONDS)
                     .build();
-            if (mGson == null)
-                mGson = new Gson();
         }
+        if (mGson == null)
+            mGson = new Gson();
         return this;
     }
 
