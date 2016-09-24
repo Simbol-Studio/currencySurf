@@ -212,5 +212,16 @@
 
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="dark_grey_1">#202020</color>
+    <color name="dark_grey_2">#333333</color>
+    <color name="dark_grey_3">#515356</color>
+    <color name="dark_grey_4">#747578</color>
+    <color name="dark_grey_5">#B1B1B1</color>
+    <color name="dark_grey_6">#CBCBCB</color>
+    <color name="dark_grey_7">#EEEEEE</color>
+    <color name="dark_grey_8">#FFFFFF</color>
+    <color name="green">#1DA664</color>
 
 </resources>
