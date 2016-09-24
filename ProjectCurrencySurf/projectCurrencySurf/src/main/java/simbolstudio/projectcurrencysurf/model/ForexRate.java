@@ -20,20 +20,12 @@ public class ForexRate implements Serializable {
         this.id = id;
     }
 
-    public String getCurrencySymbol() {
-        return currencySymbol;
+    public String getName() {
+        return Name;
     }
 
-    public void setCurrencySymbol(String currencySymbol) {
-        this.currencySymbol = currencySymbol;
-    }
-
-    public String getCurrencyNm() {
-        return currencyNm;
-    }
-
-    public void setCurrencyNm(String currencyNm) {
-        this.currencyNm = currencyNm;
+    public void setName(String name) {
+        Name = name;
     }
 
     public Double getRate() {
@@ -44,11 +36,19 @@ public class ForexRate implements Serializable {
         Rate = rate;
     }
 
-    public String getName() {
-        return Name;
+    public String getCurrencyNm() {
+        return currencyNm;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setCurrencyNm(String currencyNm) {
+        this.currencyNm = currencyNm;
+    }
+
+    public String getCurrencySymbol() {
+        return currencySymbol;
+    }
+
+    public void setCurrencySymbol(String currencySymbol) {
+        this.currencySymbol = currencySymbol;
     }
 }
