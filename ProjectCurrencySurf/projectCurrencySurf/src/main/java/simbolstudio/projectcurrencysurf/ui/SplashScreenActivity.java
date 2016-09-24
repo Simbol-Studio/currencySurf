@@ -30,7 +30,6 @@ public class SplashScreenActivity extends BaseAppCompatActivity {
     String selectedCurrencyListJSONString;
     Long lastUpdate;
     YQLCurrencyQueryResponse yqlCurrencyQueryResponse;
-    boolean flag;
     ArrayList<ForexRate> latestForexRate;
 
     @Override
@@ -56,14 +55,15 @@ public class SplashScreenActivity extends BaseAppCompatActivity {
         sharedPreferences = getActivityContext().getSharedPreferences(ConstantHelper.SHARED_PREFERENCES, MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
-        setLocalCountryISO();
+        setBaseCurrencyByLocalCountryISO();
         getForexRate();
-
-//        ArrayList<Country> countryList = (ArrayList<Country>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_COUNTRIES, loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_COUNTRIES));
-//        ArrayList<CurrencyType> currencyList = (ArrayList<CurrencyType>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES));
     }
 
-    private void setLocalCountryISO() {
+    @Override
+    public void onBackPressed() {
+    }
+
+    private void setBaseCurrencyByLocalCountryISO() {
         baseCurrencyId = sharedPreferences.getString(ConstantHelper.SHARED_PREFERENCES_BASE_CURRENCY_ID, null);
         if (baseCurrencyId == null) {
             if (sharedPreferences != null & editor != null) {
@@ -83,7 +83,7 @@ public class SplashScreenActivity extends BaseAppCompatActivity {
                 if (countryISO != null) {
                     baseCurrencyId = getCurrencyByCountryISO(countryISO);
                     editor.putString(ConstantHelper.SHARED_PREFERENCES_BASE_CURRENCY_ID, baseCurrencyId);
-                }else{
+                } else {
                     editor.putString(ConstantHelper.SHARED_PREFERENCES_BASE_CURRENCY_ID, ConstantHelper.DEFAULT_BASE_CURRENCY_ID);
                 }
 
@@ -95,30 +95,27 @@ public class SplashScreenActivity extends BaseAppCompatActivity {
     private void setSelectedCurrency() {
         selectedCurrencyListJSONString = sharedPreferences.getString(ConstantHelper.SHARED_PREFERENCES_SELECTED_CURRENCY_LIST, null);
         if (selectedCurrencyListJSONString == null) {
-//            if (yqlCurrencyQueryResponse != null)
-//                forexList = yqlCurrencyQueryResponse.getQuery().getResults().getRate();
-
-//            if (latestForexRate == null) {
-//                forexRateListJSONString = sharedPreferences.getString(ConstantHelper.SHARED_PREFERENCES_FOREX_RATE_LIST, null);
-//                if (forexRateListJSONString != null)
-//                    latestForexRate = (ArrayList<ForexRate>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, forexRateListJSONString);
-//            }
-
 
             if (latestForexRate != null && sharedPreferences != null && editor != null) {
                 ArrayList<ForexRate> selectedForexList = new ArrayList<>();
                 selectedForexList.add(getForexById(baseCurrencyId, latestForexRate));
-                boolean found = false;
-                for (int i = 0; i < latestForexRate.size();i++){// && selectedForexList.size() < 5; i++) {
-                    found = false;
-                    for (int j = 0; j < selectedForexList.size(); j++) {
-                        if (selectedForexList.get(j).getId().equalsIgnoreCase(latestForexRate.get(i).getId()))
+                boolean isBaseCurrencyInFavourite = false;
+                for (int i = 0; i < latestForexRate.size() && selectedForexList.size() < ConstantHelper.DEFAULT_CURRENCY_COUNT; i++) {
+                    boolean found = false;
+                    for (int j = 0; j < selectedForexList.size() && !found; j++) {
+                        if (selectedForexList.get(j).getId().equalsIgnoreCase(latestForexRate.get(i).getId())) {
+                            isBaseCurrencyInFavourite = true;
                             found = true;
+                        }
                     }
                     if (!found)
                         selectedForexList.add(latestForexRate.get(i));
                 }
-                selectedCurrencyListJSONString= convertObjectToJSONString(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES,selectedForexList);
+                if (!isBaseCurrencyInFavourite)
+                    if (!latestForexRate.get(ConstantHelper.DEFAULT_CURRENCY_COUNT - 1).getId().equalsIgnoreCase(baseCurrencyId))
+                        selectedForexList.add(latestForexRate.get(ConstantHelper.DEFAULT_CURRENCY_COUNT - 1));
+
+                selectedCurrencyListJSONString = convertObjectToJSONString(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, selectedForexList);
                 if (sharedPreferences != null & editor != null && selectedCurrencyListJSONString != null) {
 
                     editor.putString(ConstantHelper.SHARED_PREFERENCES_SELECTED_CURRENCY_LIST, selectedCurrencyListJSONString);
@@ -128,7 +125,6 @@ public class SplashScreenActivity extends BaseAppCompatActivity {
         }
         finishLoad();
     }
-
 
     private void getForexRate() {
         forexRateListJSONString = sharedPreferences.getString(ConstantHelper.SHARED_PREFERENCES_FOREX_RATE_LIST, null);
@@ -140,19 +136,17 @@ public class SplashScreenActivity extends BaseAppCompatActivity {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         ongetForexRateFail();
-                        setSelectedCurrency();
                     }
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
-                        if (!response.isSuccessful()){
+                        if (!response.isSuccessful()) {
                             ongetForexRateFail();
                             setSelectedCurrency();
                         }
 
                         yqlCurrencyQueryResponse = okHttpClientSingleton.getmGson().fromJson(response.body().charStream(), YQLCurrencyQueryResponse.class);
                         ongetForexRate();
-                        setSelectedCurrency();
                     }
                 };
 
@@ -162,7 +156,7 @@ public class SplashScreenActivity extends BaseAppCompatActivity {
                 ex.printStackTrace();
                 ongetForexRateFail();
             }
-        }else
+        } else
             setSelectedCurrency();
     }
 
@@ -170,8 +164,8 @@ public class SplashScreenActivity extends BaseAppCompatActivity {
 //        expected
         if (sharedPreferences != null & editor != null && yqlCurrencyQueryResponse != null) {
 
-            ArrayList<ForexRate> forexRateList = yqlCurrencyQueryResponse.getQuery().getResults().getRate();
-            latestForexRate=mergeLatestForexRateWithCurrencyInfo(forexRateList);
+            ArrayList<ForexRate> newForexRateList = yqlCurrencyQueryResponse.getQuery().getResults().getRate();
+            latestForexRate = mergeLatestForexRateWithCurrencyInfo(newForexRateList);
             forexRateListJSONString = convertObjectToJSONString(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, latestForexRate);
 
             editor.putLong(ConstantHelper.SHARED_PREFERENCES_LAST_UPDATE, new Date().getTime());
@@ -184,8 +178,8 @@ public class SplashScreenActivity extends BaseAppCompatActivity {
 
     private void ongetForexRateFail() {
         //backup
-        forexRateListJSONString= loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES);
-        latestForexRate=(ArrayList<ForexRate>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES,forexRateListJSONString);
+        forexRateListJSONString = loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES);
+        latestForexRate = (ArrayList<ForexRate>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, forexRateListJSONString);
         if (sharedPreferences != null & editor != null && yqlCurrencyQueryResponse != null) {
 
             editor.putString(ConstantHelper.SHARED_PREFERENCES_BASE_CURRENCY_ID, ConstantHelper.DEFAULT_BASE_CURRENCY_ID);
@@ -193,12 +187,14 @@ public class SplashScreenActivity extends BaseAppCompatActivity {
             editor.putString(ConstantHelper.SHARED_PREFERENCES_FOREX_RATE_LIST, forexRateListJSONString);
             editor.commit();
         }
+
         setSelectedCurrency();
     }
 
     private void finishLoad() {
         Intent intent = new Intent(getActivityContext(), MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
     }
