@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue_300"
+    android:clipToPadding="false"
+    tools:context="simbolstudio.projectcurrencysurf.ui.main.MainActivity">
+
+    <include
+        android:id="@+id/mainToolbar"
+        layout="@layout/toolbar" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/searchRecycler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/selectedCurrencyLayout"
+        android:layout_below="@+id/mainToolbar"
+        android:scrollbars="none" />
+
+    <RelativeLayout
+        android:id="@+id/selectedCurrencyLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_80_dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/selectedCurrencyCountText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_16_dp"
+            android:layout_centerVertical="true"/>
+
+        <CheckBox
+            android:id="@+id/selectAllCurrencyCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_72_dp"
+    android:clipToPadding="false"
+    android:padding="@dimen/_16_dp"
+    app:slm_headerDisplay="inline|sticky"
+    app:slm_isHeader="true">
+
+    <TextView
+        android:id="@+id/currencyHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/currencyInfo"
+        android:layout_marginTop="@dimen/_4_dp"
+        android:ellipsize="end"
+        android:singleLine="true" />
+</RelativeLayout>

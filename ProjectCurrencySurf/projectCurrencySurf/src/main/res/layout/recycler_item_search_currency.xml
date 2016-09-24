@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/currencyLayout"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_72_dp"
+    android:clickable="true"
+    android:clipToPadding="false"
+    android:padding="@dimen/_16_dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/currencyImg"
+        android:layout_width="@dimen/_40_dp"
+        android:layout_height="@dimen/_40_dp"
+        android:fitsSystemWindows="false"
+        android:scaleType="centerCrop"
+        app:layout_collapseMode="parallax"
+        app:roundedCornerRadius="@dimen/_20_dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/_16_dp"
+        android:layout_toRightOf="@id/currencyImg">
+
+        <TextView
+            android:id="@+id/currencyCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLength="3"
+            android:singleLine="true"
+            android:text="dfsdfds" />
+
+        <TextView
+            android:id="@+id/currencyNm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/currencyCode"
+            android:layout_marginTop="@dimen/_4_dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="sdasd" />
+
+        <CheckBox
+            android:id="@+id/currencyIsSelected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+</RelativeLayout>
