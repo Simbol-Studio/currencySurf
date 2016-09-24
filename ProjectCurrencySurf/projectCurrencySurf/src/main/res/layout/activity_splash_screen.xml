@@ -1,9 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="simbolstudio.projectcurrencysurf.ui.SplashScreenActivity">
+    android:background="@color/dark_grey_2">
 
+    <!--<RelativeLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerInParent="true">-->
 
+    <!--<ImageView-->
+    <!--android:id="@+id/launcherImg"-->
+    <!--android:layout_width="@dimen/_120_dp"-->
+    <!--android:layout_height="@dimen/_120_dp"-->
+    <!--android:src="@drawable/launcher_no_background"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:scaleType="centerCrop"-->
+    <!--/>-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/appTitle"-->
+    <!--android:layout_below="@+id/launcherImg"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:text="@string/app_name"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:fontFamily="@string/roboto_regular"-->
+    <!--android:textSize="@dimen/_32_sp"-->
+    <!--android:gravity="center"-->
+    <!--android:layout_height="wrap_content" />-->
+
+    <!--<com.github.rahatarmanahmed.cpv.CircularProgressView-->
+    <!--android:id="@+id/progress_view"-->
+    <!--android:layout_marginTop="@dimen/_40_dp"-->
+    <!--app:cpv_color="@color/dark_grey_5"-->
+    <!--android:layout_marginBottom="@dimen/_104_dp"-->
+    <!--android:layout_width="40dp"-->
+    <!--android:layout_below="@+id/appTitle"-->
+    <!--android:layout_height="40dp"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--app:cpv_animAutostart="true"-->
+    <!--app:cpv_indeterminate="true" />-->
+    <!--</RelativeLayout>-->
 </RelativeLayout>
