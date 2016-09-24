@@ -2,34 +2,59 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_80_dp"
-    android:orientation="vertical"
+    android:layout_height="@dimen/_72_dp"
     android:clipToPadding="false"
     android:padding="@dimen/_16_dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/currencyImg"
-        android:layout_width="@dimen/_48_dp"
-        android:layout_height="@dimen/_48_dp"
+        android:layout_width="@dimen/_40_dp"
+        android:layout_height="@dimen/_40_dp"
         android:fitsSystemWindows="false"
         android:scaleType="centerCrop"
         app:layout_collapseMode="parallax"
-        app:roundedCornerRadius="@dimen/_24_dp" />
+        app:roundedCornerRadius="@dimen/_20_dp" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/_16_dp"
-        android:layout_toRightOf="@id/currencyImg"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/currencyCode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        android:layout_toRightOf="@id/currencyImg">
+
+        <RelativeLayout
+            android:id="@+id/currencyInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/currencyCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLength="3"
+                android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/currencyAmt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/_16_dp"
+                android:layout_toRightOf="@+id/currencyCode"
+                android:ellipsize="end"
+                android:gravity="right"
+                android:singleLine="true" />
+
+        </RelativeLayout>
+
         <TextView
             android:id="@+id/currencyNm"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/currencyInfo"
+            android:layout_marginTop="@dimen/_4_dp"
+            android:ellipsize="end"
+            android:singleLine="true" />
+    </RelativeLayout>
 </RelativeLayout>

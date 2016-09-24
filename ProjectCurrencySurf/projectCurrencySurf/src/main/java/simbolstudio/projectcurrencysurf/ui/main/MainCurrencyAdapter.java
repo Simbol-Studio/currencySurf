@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 import simbolstudio.projectcurrencysurf.R;
 import simbolstudio.projectcurrencysurf.model.ForexRate;
-import simbolstudio.projectcurrencysurf.ui.common.MainCurrencyViewHolder;
 
 /**
  * Created by Marcus on 28-Aug-2016.
@@ -21,6 +20,10 @@ import simbolstudio.projectcurrencysurf.ui.common.MainCurrencyViewHolder;
 public class MainCurrencyAdapter extends RecyclerView.Adapter<MainCurrencyViewHolder> {
     Context context;
     ArrayList<ForexRate> forexList;
+
+    public ArrayList<ForexRate> getForexList() {
+        return forexList;
+    }
 
     public MainCurrencyAdapter(Context context) {
         this.context = context;
@@ -41,6 +44,18 @@ public class MainCurrencyAdapter extends RecyclerView.Adapter<MainCurrencyViewHo
         }
     }
 
+    public void updateForexRate(ForexRate forexRate) {
+        if (forexList != null) {
+            for (int i = 0; i < forexList.size(); i++) {
+                if (forexList.get(i).getId().equalsIgnoreCase(forexRate.getId())) {
+                    forexList.remove(i);
+                    return;
+                }
+            }
+            forexList.add(forexRate);
+        }
+    }
+
     public ForexRate getItem(int position) {
         if (forexList != null && position < forexList.size())
             return forexList.get(position);
@@ -50,7 +65,10 @@ public class MainCurrencyAdapter extends RecyclerView.Adapter<MainCurrencyViewHo
 
     @Override
     public int getItemCount() {
-        return forexList.size();
+        if (forexList != null)
+            return forexList.size();
+        else
+            return 0;
     }
 
     @Override
@@ -67,9 +85,13 @@ public class MainCurrencyAdapter extends RecyclerView.Adapter<MainCurrencyViewHo
                     .scheme(UriUtil.LOCAL_RESOURCE_SCHEME)
                     .path(String.valueOf(((MainActivity) context).getCurrencyIcon(forexRate.getId())))
                     .build();
+            Double rate = 0.0;
+            if (forexRate.getRate() == null)
+                rate = 0.0;
+            else
+                rate = forexRate.getRate();
 
-            holder.bindData(uri, forexRate.getId(),forexRate.getCurrencyNm());
-
+            holder.bindData(uri, forexRate.getId(), forexRate.getCurrencyNm(), rate);
         }
     }
 }
