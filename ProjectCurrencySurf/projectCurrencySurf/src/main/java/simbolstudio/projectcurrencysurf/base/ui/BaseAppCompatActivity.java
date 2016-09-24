@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -29,6 +31,9 @@ import simbolstudio.projectcurrencysurf.model.ForexRate;
  */
 public abstract class BaseAppCompatActivity extends AppCompatActivity {
     private Toolbar toolbar;
+    ImageButton customNavImg;
+    TextView customTitleText;
+    EditText customSearchEditText;
 
     protected abstract Context getActivityContext();
 
@@ -57,39 +62,48 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
         return toolbar;
     }
 
+    public TextView getCustomTitleText() {
+        return customTitleText;
+    }
+
+    public EditText getCustomSearchEditText() {
+        return customSearchEditText;
+    }
+
     protected void setupToolbar(int activityToolbarResourceId, String toolbarTitle, boolean isBack) {
         if (activityToolbarResourceId != 0) {
             if (toolbar == null) {
                 toolbar = (Toolbar) findViewById(activityToolbarResourceId);
             }
 
-            TextView titleTV = null;
-            for (int i = 0; i < toolbar.getChildCount(); i++) {
-                View child = toolbar.getChildAt(i);
-                if (child instanceof TextView) {
-                    titleTV = (TextView) child;
-                    titleTV.setText(toolbarTitle);
-                    if (Build.VERSION.SDK_INT < 23) {
-                        titleTV.setTextAppearance(getActivityContext(), R.style.TitleText);
-                    } else {
-                        titleTV.setTextAppearance(R.style.TitleText);
-                    }
-                    titleTV.setTextColor(getResources().getColor(R.color.amber_50));
-                    break;
+            if (toolbarTitle != null && !toolbarTitle.equalsIgnoreCase("")) {
+                customTitleText = (TextView) toolbar.findViewById(R.id.customTitleText);
+                customTitleText.setText(toolbarTitle);
+                if (Build.VERSION.SDK_INT < 23) {
+                    customTitleText.setTextAppearance(getActivityContext(), R.style.DarkTitleText);
+                } else {
+                    customTitleText.setTextAppearance(R.style.DarkTitleText);
                 }
+                customTitleText.setTextColor(getResources().getColor(R.color.amber_50));
+                customTitleText.setVisibility(View.VISIBLE);
             }
 
-            if (titleTV == null) {
-                toolbar.setTitle(toolbarTitle);
-                toolbar.setTitleTextAppearance(getActivityContext(), R.style.TitleText);
-                toolbar.setTitleTextColor(getResources().getColor(R.color.amber_50));
-            }
             if (isBack) {
-                toolbar.setNavigationIcon(R.drawable.aed);
+                customNavImg = (ImageButton) toolbar.findViewById(R.id.customNavImg);
+                customNavImg.setImageResource(R.drawable.ico_nav_back);
+                customNavImg.setVisibility(View.VISIBLE);
+                customNavImg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onBackPressed();
+                    }
+                });
             }
+
+            customSearchEditText = (EditText) toolbar.findViewById(R.id.customSearchEditText);
+
             setSupportActionBar(toolbar);
         }
-
     }
 
     public void showMessage(String title, String message, String positiveBtnText, AlertDialog.OnClickListener positiveOnclickListener, String negativeBtnText, AlertDialog.OnClickListener negativeOnClickListener) {
@@ -149,8 +163,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
                     }.getType();
                     List<ForexRate> resultList = gson.fromJson(jsonString, collectionType);
                     return resultList;
-                }
-                else {
+                } else {
                     return null;
                 }
             } catch (Exception ex) {
@@ -166,8 +179,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
         try {
             if (key.equalsIgnoreCase(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES) && forexRateArrayList != null) {
                 return gson.toJson(forexRateArrayList);
-            }
-            else {
+            } else {
                 return null;
             }
         } catch (Exception ex) {
@@ -205,10 +217,10 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
         return uri;
     }
 
-    public ArrayList<ForexRate> mergeLatestForexRateWithCurrencyInfo(ArrayList<ForexRate> latestForexRateList){
+    public ArrayList<ForexRate> mergeLatestForexRateWithCurrencyInfo(ArrayList<ForexRate> latestForexRateList) {
         ArrayList<ForexRate> currencyList = (ArrayList<ForexRate>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES));
 
-        for(int i=0;i<currencyList.size() && i<latestForexRateList.size();i++){
+        for (int i = 0; i < currencyList.size() && i < latestForexRateList.size(); i++) {
             latestForexRateList.get(i).setId(currencyList.get(i).getId());
             latestForexRateList.get(i).setCurrencyNm(currencyList.get(i).getCurrencyNm());
             latestForexRateList.get(i).setCurrencySymbol(currencyList.get(i).getCurrencySymbol());
@@ -230,8 +242,8 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     }
 
     public int getCurrencyIcon(String currencyId) {
-        if(currencyId.equalsIgnoreCase("try"))
-            currencyId="tryturkish";
+        if (currencyId.equalsIgnoreCase("try"))
+            currencyId = "tryturkish";
 
         int resourceId = getResources().getIdentifier(currencyId.toLowerCase(), "drawable", getPackageName());
         if (resourceId > 0)
