@@ -45,6 +45,7 @@ public class MainActivity extends BaseAppCompatActivity {
 
     OkHttpClientSingleton okHttpClientSingleton;
     boolean doubleBackToExitPressedOnce = false;
+    boolean isLoading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,17 +70,21 @@ public class MainActivity extends BaseAppCompatActivity {
         if (baseCurrencyId == null)
             baseCurrencyId = ConstantHelper.DEFAULT_BASE_CURRENCY_ID;
         String selectedForexRateListJSONString = sharedPreferences.getString(ConstantHelper.SHARED_PREFERENCES_SELECTED_CURRENCY_LIST, null);
-//        if ==null
+
         lastUpdatedAt = sharedPreferences.getLong(ConstantHelper.SHARED_PREFERENCES_LAST_UPDATE, 0);
         String latestAllForexRateListJSONString = sharedPreferences.getString(ConstantHelper.SHARED_PREFERENCES_FOREX_RATE_LIST, null);
         latestForexRate = (ArrayList<ForexRate>) convertStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, ConstantHelper.METHOD_OBJECT_SERIALIZER, latestAllForexRateListJSONString);
 
+        //ui
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 refreshForexRateList();
             }
         });
+
+        swipeContainer.setColorSchemeResources(R.color.green, R.color.dark_grey_1);
+
 
         layoutManager = new LinearLayoutManager(getActivityContext(), LinearLayoutManager.VERTICAL, false) {
             @Override
@@ -115,32 +120,24 @@ public class MainActivity extends BaseAppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem addCurrency = menu.findItem(R.id.addCurrency);
-        addCurrency.getIcon().setAlpha(205);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.refresh:
+                refreshForexRateList();
+                break;
+            case R.id.addCurrency:
+                startSearchActivity();
+                break;
             case R.id.setting:
-                Log.v("", "");
+            case R.id.about:
                 break;
         }
-        Intent intent = new Intent(getActivityContext(), SearchActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(ConstantHelper.EXTRA_ALL_CURRENCY_LIST, latestForexRate);
-        bundle.putSerializable(ConstantHelper.EXTRA_SELECTED_CURRENCY_LIST, mainCurrencyAdapter.getForexList());
-        intent.putExtra(ConstantHelper.EXTRA_BUNDLE_CURRENCY, bundle);
-        startActivityForResult(intent, ConstantHelper.REQUEST_CODE_SEARCH_CURRENCY);
 
         return super.onOptionsItemSelected(item);
-
-//        swipeContainer.post(new Runnable() {
-//            @Override public void run() {
-//                swipeContainer.setRefreshing(true);
-//            }
-//        });
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -159,7 +156,29 @@ public class MainActivity extends BaseAppCompatActivity {
     }
 
     public void refreshForexRateList() {
-        getForexRate();
+        if (!isLoading) {
+            setSwipeContainerRefreshing(true);
+            getForexRate();
+        }
+    }
+
+    public void startSearchActivity() {
+        Intent intent = new Intent(getActivityContext(), SearchActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(ConstantHelper.EXTRA_ALL_CURRENCY_LIST, latestForexRate);
+        bundle.putSerializable(ConstantHelper.EXTRA_SELECTED_CURRENCY_LIST, mainCurrencyAdapter.getForexList());
+        intent.putExtra(ConstantHelper.EXTRA_BUNDLE_CURRENCY, bundle);
+        startActivityForResult(intent, ConstantHelper.REQUEST_CODE_SEARCH_CURRENCY);
+    }
+
+    public void setSwipeContainerRefreshing(final boolean isRefreshing) {
+        isLoading = isRefreshing;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                swipeContainer.setRefreshing(isRefreshing);
+            }
+        });
     }
 
     public void checkIsEmpty() {
@@ -177,7 +196,6 @@ public class MainActivity extends BaseAppCompatActivity {
         Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
-
             @Override
             public void run() {
                 doubleBackToExitPressedOnce = false;
@@ -192,18 +210,29 @@ public class MainActivity extends BaseAppCompatActivity {
             Callback mCallback = new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    ongetForexRateFail();
+                    try {
+                        ongetForexRateFail();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        ongetForexRateFail();
+                    }
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    if (!response.isSuccessful()) {
-                        ongetForexRateFail();
-                    }
+                    try {
+                        if (!response.isSuccessful()) {
+                            ongetForexRateFail();
+                        }
 
-                    if (response != null && response.body() != null) {
-                        yqlCurrencyQueryResponse = okHttpClientSingleton.getmGson().fromJson(response.body().charStream(), YQLCurrencyQueryResponse.class);
-                        ongetForexRate();
+                        if (response != null && response.body() != null) {
+                            yqlCurrencyQueryResponse = okHttpClientSingleton.getmGson().fromJson(response.body().charStream(), YQLCurrencyQueryResponse.class);
+                            ongetForexRate();
+                        }
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        ongetForexRateFail();
                     }
                 }
             };
@@ -219,6 +248,7 @@ public class MainActivity extends BaseAppCompatActivity {
     private void ongetForexRate() {
 //        expected
         if (sharedPreferences != null & editor != null && yqlCurrencyQueryResponse != null) {
+            Log.v("Debug", "get rate success");
 
             ArrayList<ForexRate> newForexRateList = yqlCurrencyQueryResponse.getQuery().getResults().getRate();
             latestForexRate = mergeLatestForexRateWithCurrencyInfo(newForexRateList);
@@ -234,26 +264,14 @@ public class MainActivity extends BaseAppCompatActivity {
             editor.putLong(ConstantHelper.SHARED_PREFERENCES_LAST_UPDATE, lastUpdatedAt);
             editor.putString(ConstantHelper.SHARED_PREFERENCES_FOREX_RATE_LIST, forexRateListJSONString);
             editor.commit();
-
-            Log.v("Debug", "get rate success");
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    swipeContainer.setRefreshing(false);
-                }
-            });
         }
+
+        setSwipeContainerRefreshing(false);
     }
 
     private void ongetForexRateFail() {
-        //backup
         //show msg
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                swipeContainer.setRefreshing(false);
-            }
-        });
+        setSwipeContainerRefreshing(false);
     }
 
     private void updateSelectedCurrency(ArrayList<ForexRate> selectedCurrency) {
