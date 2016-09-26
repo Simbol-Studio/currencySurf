@@ -54,6 +54,5 @@ public class OkHttpClientSingleton {
             mCall.cancel();
         mCall = mClient.newCall(request);
         mCall.enqueue(mCallback);
-        mCall = null;
     }
 }
