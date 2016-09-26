@@ -115,7 +115,7 @@ public class SplashScreenActivity extends BaseAppCompatActivity {
                     if (!latestForexRate.get(ConstantHelper.DEFAULT_CURRENCY_COUNT - 1).getId().equalsIgnoreCase(baseCurrencyId))
                         selectedForexList.add(latestForexRate.get(ConstantHelper.DEFAULT_CURRENCY_COUNT - 1));
 
-                selectedCurrencyListJSONString = convertObjectToJSONString(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, selectedForexList);
+                selectedCurrencyListJSONString = convertObjectToString(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, selectedForexList);
                 if (sharedPreferences != null & editor != null && selectedCurrencyListJSONString != null) {
 
                     editor.putString(ConstantHelper.SHARED_PREFERENCES_SELECTED_CURRENCY_LIST, selectedCurrencyListJSONString);
@@ -166,7 +166,7 @@ public class SplashScreenActivity extends BaseAppCompatActivity {
 
             ArrayList<ForexRate> newForexRateList = yqlCurrencyQueryResponse.getQuery().getResults().getRate();
             latestForexRate = mergeLatestForexRateWithCurrencyInfo(newForexRateList);
-            forexRateListJSONString = convertObjectToJSONString(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, latestForexRate);
+            forexRateListJSONString = convertObjectToString(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, latestForexRate);
 
             editor.putLong(ConstantHelper.SHARED_PREFERENCES_LAST_UPDATE, new Date().getTime());
             editor.putString(ConstantHelper.SHARED_PREFERENCES_FOREX_RATE_LIST, forexRateListJSONString);
@@ -179,7 +179,7 @@ public class SplashScreenActivity extends BaseAppCompatActivity {
     private void ongetForexRateFail() {
         //backup
         forexRateListJSONString = loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES);
-        latestForexRate = (ArrayList<ForexRate>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, forexRateListJSONString);
+        latestForexRate = (ArrayList<ForexRate>) convertStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES,ConstantHelper.METHOD_GSON, forexRateListJSONString);
         if (sharedPreferences != null & editor != null && yqlCurrencyQueryResponse != null) {
 
             editor.putString(ConstantHelper.SHARED_PREFERENCES_BASE_CURRENCY_ID, ConstantHelper.DEFAULT_BASE_CURRENCY_ID);

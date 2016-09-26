@@ -72,7 +72,7 @@ public class MainActivity extends BaseAppCompatActivity {
 //        if ==null
         lastUpdatedAt = sharedPreferences.getLong(ConstantHelper.SHARED_PREFERENCES_LAST_UPDATE, 0);
         String latestAllForexRateListJSONString = sharedPreferences.getString(ConstantHelper.SHARED_PREFERENCES_FOREX_RATE_LIST, null);
-        latestForexRate = (ArrayList<ForexRate>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, latestAllForexRateListJSONString);
+        latestForexRate = (ArrayList<ForexRate>) convertStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, ConstantHelper.METHOD_OBJECT_SERIALIZER, latestAllForexRateListJSONString);
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -101,7 +101,7 @@ public class MainActivity extends BaseAppCompatActivity {
         mainCurrencyAdapter = new MainCurrencyAdapter(getActivityContext());
         mainRecycler.setAdapter(mainCurrencyAdapter);
 
-        mainCurrencyAdapter.setForexList((ArrayList<ForexRate>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, selectedForexRateListJSONString));
+        mainCurrencyAdapter.setForexList((ArrayList<ForexRate>) convertStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, ConstantHelper.METHOD_OBJECT_SERIALIZER, selectedForexRateListJSONString));
         mainCurrencyAdapter.notifyDataSetChanged();
     }
 
@@ -228,7 +228,7 @@ public class MainActivity extends BaseAppCompatActivity {
                     mainCurrencyAdapter.notifyDataSetChanged();
                 }
             });
-            String forexRateListJSONString = convertObjectToJSONString(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, latestForexRate);
+            String forexRateListJSONString = convertObjectToString(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, latestForexRate);
             lastUpdatedAt = yqlCurrencyQueryResponse.getQuery().getCreated().getTime();
 
             editor.putLong(ConstantHelper.SHARED_PREFERENCES_LAST_UPDATE, lastUpdatedAt);
@@ -258,7 +258,7 @@ public class MainActivity extends BaseAppCompatActivity {
 
     private void updateSelectedCurrency(ArrayList<ForexRate> selectedCurrency) {
         if (sharedPreferences != null & editor != null && selectedCurrency != null) {
-            String selectedCurrencyListJSONString = convertObjectToJSONString(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, selectedCurrency);
+            String selectedCurrencyListJSONString = convertObjectToString(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, selectedCurrency);
             editor.putString(ConstantHelper.SHARED_PREFERENCES_SELECTED_CURRENCY_LIST, selectedCurrencyListJSONString);
             editor.commit();
         }

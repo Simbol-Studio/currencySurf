@@ -26,6 +26,9 @@ public class ConstantHelper {
     public static final String SHARED_PREFERENCES_FOREX_RATE_LIST = "SHARED_PREFERENCES_FOREX_RATE_LIST";
     public static final String SHARED_PREFERENCES_SELECTED_CURRENCY_LIST = "SHARED_PREFERENCES_SELECTED_CURRENCY_LIST";
 
+    public static final String METHOD_GSON = "METHOD_GSON";
+    public static final String METHOD_OBJECT_SERIALIZER = "METHOD_OBJECT_SERIALIZER";
+
     public static final int SNACKBAR_TEXT_SIZE = 16;
     public static final int SNACKBAR_TEXT_MAXLINE = 3;
 

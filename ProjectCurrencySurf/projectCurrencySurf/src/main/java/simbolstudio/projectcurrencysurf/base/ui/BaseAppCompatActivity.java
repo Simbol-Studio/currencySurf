@@ -23,6 +23,7 @@ import java.util.List;
 
 import simbolstudio.projectcurrencysurf.R;
 import simbolstudio.projectcurrencysurf.common.ConstantHelper;
+import simbolstudio.projectcurrencysurf.common.ObjectSerializer;
 import simbolstudio.projectcurrencysurf.model.Country;
 import simbolstudio.projectcurrencysurf.model.ForexRate;
 
@@ -90,7 +91,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
 
             if (isBack) {
                 customNavImg = (ImageButton) toolbar.findViewById(R.id.customNavImg);
-                customNavImg.setImageResource(R.drawable.ico_nav_back);
+                customNavImg.setImageResource(R.drawable.ico_back);
                 customNavImg.setVisibility(View.VISIBLE);
                 customNavImg.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -149,20 +150,25 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
         }
     }
 
-    public Object convertJSONStringToObject(String key, String jsonString) {
+    public Object convertStringToObject(String key, String method, String jsonString) {
         if (jsonString != null) {
             Gson gson = new Gson();
             try {
-                if (key.equalsIgnoreCase(ConstantHelper.KEY_ASSETS_NAME_COUNTRIES)) {
-                    Type collectionType = new TypeToken<List<Country>>() {
-                    }.getType();
-                    List<Country> resultList = gson.fromJson(jsonString, collectionType);
-                    return resultList;
-                } else if (key.equalsIgnoreCase(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES)) {
-                    Type collectionType = new TypeToken<List<ForexRate>>() {
-                    }.getType();
-                    List<ForexRate> resultList = gson.fromJson(jsonString, collectionType);
-                    return resultList;
+                if (key.equalsIgnoreCase(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES)) {
+                    if (method.equals(ConstantHelper.METHOD_OBJECT_SERIALIZER)) {
+                        ArrayList<ForexRate> resultList = new ArrayList<>();
+                        try {
+                            resultList = (ArrayList<ForexRate>) ObjectSerializer.deserialize(jsonString);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                        return resultList;
+                    } else {
+                        Type collectionType = new TypeToken<List<ForexRate>>() {
+                        }.getType();
+                        List<ForexRate> resultList = gson.fromJson(jsonString, collectionType);
+                        return resultList;
+                    }
                 } else {
                     return null;
                 }
@@ -174,11 +180,19 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
             return null;
     }
 
-    public String convertObjectToJSONString(String key, ArrayList<ForexRate> forexRateArrayList) {
-        Gson gson = new Gson();
+    public String convertObjectToString(String key, ArrayList<ForexRate> forexRateArrayList) {
         try {
             if (key.equalsIgnoreCase(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES) && forexRateArrayList != null) {
-                return gson.toJson(forexRateArrayList);
+                String ObjectString = "";
+                try {
+                    ObjectString = ObjectSerializer.serialize(forexRateArrayList);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                return ObjectString;
+
+//                Gson gson = new Gson();
+//                return gson.toJson(forexRateArrayList);
             } else {
                 return null;
             }
@@ -189,7 +203,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     }
 
     public String getCurrencyByCountryISO(String countryISO) {
-        ArrayList<Country> countryList = (ArrayList<Country>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_COUNTRIES, loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_COUNTRIES));
+        ArrayList<Country> countryList = (ArrayList<Country>) convertStringToObject(ConstantHelper.KEY_ASSETS_NAME_COUNTRIES, ConstantHelper.METHOD_GSON, loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_COUNTRIES));
 
         if (countryList != null && countryList.size() > 0) {
             for (int i = 0; i < countryList.size(); i++) {
@@ -203,7 +217,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     }
 
     public String getYQL(String baseCurrency) {
-        ArrayList<ForexRate> currencyList = (ArrayList<ForexRate>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES));
+        ArrayList<ForexRate> currencyList = (ArrayList<ForexRate>) convertStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, ConstantHelper.METHOD_GSON, loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES));
 
         String uri = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20(";
         for (int i = 0; i < currencyList.size(); i++) {
@@ -218,7 +232,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     }
 
     public ArrayList<ForexRate> mergeLatestForexRateWithCurrencyInfo(ArrayList<ForexRate> latestForexRateList) {
-        ArrayList<ForexRate> currencyList = (ArrayList<ForexRate>) convertJSONStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES));
+        ArrayList<ForexRate> currencyList = (ArrayList<ForexRate>) convertStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, ConstantHelper.METHOD_GSON, loadJSONToStringFromAsset(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES));
 
         for (int i = 0; i < currencyList.size() && i < latestForexRateList.size(); i++) {
             latestForexRateList.get(i).setId(currencyList.get(i).getId());
