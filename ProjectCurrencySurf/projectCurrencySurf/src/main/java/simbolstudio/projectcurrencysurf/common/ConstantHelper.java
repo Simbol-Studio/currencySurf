@@ -11,6 +11,9 @@ public class ConstantHelper {
 
     public static final int DEFAULT_CURRENCY_COUNT=8;
 
+    public static final int MODE_NORMAL=0;
+    public static final int MODE_SEARCH=1;
+
     public static final String EXTRA_BUNDLE_CURRENCY="EXTRA_BUNDLE_CURRENCY";
     public static final String EXTRA_ALL_CURRENCY_LIST="EXTRA_ALL_CURRENCY_LIST";
     public static final String EXTRA_SELECTED_CURRENCY_LIST="EXTRA_SELECTED_CURRENCY_LIST";

@@ -112,7 +112,7 @@ public class MainActivity extends BaseAppCompatActivity {
 
     @Override
     protected void setupUI() {
-        setupToolbar(R.id.mainToolbar, getResources().getString(R.string.main_activity_title), false);
+        setupToolbar(R.id.mainToolbar, getResources().getString(R.string.main_activity_title), false, false);
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         mainRecycler = (RecyclerView) findViewById(R.id.mainRecycler);
     }
