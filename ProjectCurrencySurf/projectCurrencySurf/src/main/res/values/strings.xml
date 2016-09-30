@@ -2,11 +2,16 @@
     <string name="app_name">CurrencySurf</string>
 
     <string name="main_activity_title">CurrencySurf</string>
+    <string name="search_activity_title">Select Currency</string>
 
-    <string name="menu_setting">Setting</string>
-    <string name="menu_about">About</string>
+    <string name="search_currency">Search Currency</string>
+
+    <string name="menu_refresh_exchange_rate">Refresh exchange rate</string>
     <string name="menu_add_currency">Add currency</string>
     <string name="menu_more">More</string>
-    <string name="menu_refresh_exchange_rate">Refresh exchange rate</string>
-    <string name="main_clear_text">Clear text</string>
+    <string name="menu_setting">Setting</string>
+    <string name="menu_about">About</string>
+    <string name="menu_search">Search Currency</string>
+    <string name="menu_done">Done</string>
+    <string name="menu_clear">Clear text</string>
 </resources>
