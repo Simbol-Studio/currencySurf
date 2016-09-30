@@ -10,6 +10,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -34,7 +35,9 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     private Toolbar toolbar;
     ImageButton customNavImg;
     TextView customTitleText;
+    RelativeLayout editTextLayout;
     EditText customSearchEditText;
+    ImageButton clearTextImg;
 
     protected abstract Context getActivityContext();
 
@@ -71,7 +74,19 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
         return customSearchEditText;
     }
 
-    protected void setupToolbar(int activityToolbarResourceId, String toolbarTitle, boolean isBack) {
+    public ImageButton getClearTextImg() {
+        return clearTextImg;
+    }
+
+    public RelativeLayout getEditTextLayout() {
+        return editTextLayout;
+    }
+
+    public ImageButton getCustomNavImg() {
+        return customNavImg;
+    }
+
+    protected void setupToolbar(int activityToolbarResourceId, String toolbarTitle, boolean isBack, boolean isEditable) {
         if (activityToolbarResourceId != 0) {
             if (toolbar == null) {
                 toolbar = (Toolbar) findViewById(activityToolbarResourceId);
@@ -93,15 +108,13 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
                 customNavImg = (ImageButton) toolbar.findViewById(R.id.customNavImg);
                 customNavImg.setImageResource(R.drawable.ico_back);
                 customNavImg.setVisibility(View.VISIBLE);
-                customNavImg.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onBackPressed();
-                    }
-                });
             }
 
-            customSearchEditText = (EditText) toolbar.findViewById(R.id.customSearchEditText);
+            if (isEditable) {
+                editTextLayout = (RelativeLayout) toolbar.findViewById(R.id.editTextLayout);
+                customSearchEditText = (EditText) toolbar.findViewById(R.id.customSearchEditText);
+                clearTextImg = (ImageButton) toolbar.findViewById(R.id.clearTextImg);
+            }
 
             setSupportActionBar(toolbar);
         }
