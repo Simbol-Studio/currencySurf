@@ -50,7 +50,7 @@ public class SearchCurrencyAdapter extends RecyclerView.Adapter<SearchCurrencyVi
                 sectionFirstPosition = i + headerCount;
                 lastHeader = header;
                 headerCount += 1;
-                mItems.add(new LineItem(allForexRate.get(i), header, true, sectionManager, sectionFirstPosition));
+                mItems.add(new LineItem(new ForexRate(), header, true, sectionManager, sectionFirstPosition));
             }
             mItems.add(new LineItem(allForexRate.get(i), null, false, sectionManager, sectionFirstPosition));
         }
@@ -76,9 +76,13 @@ public class SearchCurrencyAdapter extends RecyclerView.Adapter<SearchCurrencyVi
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.recycler_item_search_currency_header, parent, false);
             return new SearchCurrencyViewHolder(view, true);
-        } else {
+        } else if (viewType == ConstantHelper.VIEW_TYPE_CONTENT) {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.recycler_item_search_currency, parent, false);
+            return new SearchCurrencyViewHolder(view, false);
+        } else {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.recycler_item_empty, parent, false);
             return new SearchCurrencyViewHolder(view, false);
         }
     }
@@ -88,33 +92,42 @@ public class SearchCurrencyAdapter extends RecyclerView.Adapter<SearchCurrencyVi
         final LineItem item = mItems.get(position);
         final ForexRate forexRate = item.forexRate;
         final View itemView = holder.itemView;
+        String searchTerm = ((SearchActivity) context).getSearchTerm().toLowerCase();
         //
 
-        if (item.isHeader)
-            holder.bindData(item.getHeader());
-        else {
-            Uri uri = new Uri.Builder()
-                    .scheme(UriUtil.LOCAL_RESOURCE_SCHEME)
-                    .path(String.valueOf(((SearchActivity) context).getCurrencyIcon(forexRate.getId())))
-                    .build();
-            holder.bindData(uri, forexRate.getId(), forexRate.getCurrencyNm(), item.isSelected());
+        if (item.isHeader) {
+            if (searchTerm.equals("")) {
+                holder.bindData(item.getHeader());
+                holder.getItemLayout().setVisibility(View.VISIBLE);
+            }
+        } else {
+            String keyword = "";
+            keyword = forexRate.getCurrencyNm();
+            if (searchTerm.equals("") || (!searchTerm.equals("") && keyword.toLowerCase().contains(searchTerm))) {
+                Uri uri = new Uri.Builder()
+                        .scheme(UriUtil.LOCAL_RESOURCE_SCHEME)
+                        .path(String.valueOf(((SearchActivity) context).getCurrencyIcon(forexRate.getId())))
+                        .build();
+                holder.bindData(uri, forexRate.getId(), forexRate.getCurrencyNm(), item.isSelected());
 
-            holder.getCurrencyLayout().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    holder.getCurrencyIsSelectedCheckBox().setChecked(!holder.getCurrencyIsSelectedCheckBox().isChecked());
-                    mItems.get(position).setSelected(holder.getCurrencyIsSelectedCheckBox().isChecked());
-                    setSingleSelected(mItems.get(position).isSelected());
+                holder.getItemLayout().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        holder.getCurrencyIsSelectedCheckBox().setChecked(!holder.getCurrencyIsSelectedCheckBox().isChecked());
+                        mItems.get(position).setSelected(holder.getCurrencyIsSelectedCheckBox().isChecked());
+                        setSingleSelected(mItems.get(position).isSelected());
 
-                }
-            });
-            holder.getCurrencyIsSelectedCheckBox().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mItems.get(position).setSelected(holder.getCurrencyIsSelectedCheckBox().isChecked());
-                    setSingleSelected(mItems.get(position).isSelected());
-                }
-            });
+                    }
+                });
+                holder.getCurrencyIsSelectedCheckBox().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mItems.get(position).setSelected(holder.getCurrencyIsSelectedCheckBox().isChecked());
+                        setSingleSelected(mItems.get(position).isSelected());
+                    }
+                });
+                holder.getItemLayout().setVisibility(View.VISIBLE);
+            }
         }
 
         //
@@ -132,7 +145,15 @@ public class SearchCurrencyAdapter extends RecyclerView.Adapter<SearchCurrencyVi
 
     @Override
     public int getItemViewType(int position) {
-        return mItems.get(position).isHeader ? ConstantHelper.VIEW_TYPE_HEADER : ConstantHelper.VIEW_TYPE_CONTENT;
+        String searchTerm = ((SearchActivity) context).getSearchTerm().toLowerCase();
+        String keyword = "";
+        if (mItems.size() > 0 && mItems.get(position) != null && mItems.get(position).forexRate.getCurrencyNm() != null)
+            keyword = mItems.get(position).forexRate.getCurrencyNm();
+
+        if (searchTerm.equals(""))
+            return mItems.get(position).isHeader ? ConstantHelper.VIEW_TYPE_HEADER : ConstantHelper.VIEW_TYPE_CONTENT;
+        else
+            return (keyword.toLowerCase().contains(searchTerm)) ? ConstantHelper.VIEW_TYPE_CONTENT : ConstantHelper.VIEW_TYPE_EMPTY;
     }
 
     @Override

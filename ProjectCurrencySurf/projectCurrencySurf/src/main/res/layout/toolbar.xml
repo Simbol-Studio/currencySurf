@@ -49,9 +49,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:digits="QWERTYUIOPLKJHGFDSAZXCVBNMqwertyuioplkjhgfdsazxcvbnm"
+                android:inputType="textNoSuggestions|textFilter"
+                android:paddingBottom="@dimen/_8_dp"
                 android:paddingRight="@dimen/_32_dp"
                 android:singleLine="true"
-                android:paddingBottom="@dimen/_8_dp"
                 android:visibility="gone" />
 
             <ImageButton
@@ -59,8 +61,8 @@
                 android:layout_width="@dimen/_40_dp"
                 android:layout_height="@dimen/_40_dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="-4dp"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="-4dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/_8_dp"
                 android:scaleType="fitCenter"

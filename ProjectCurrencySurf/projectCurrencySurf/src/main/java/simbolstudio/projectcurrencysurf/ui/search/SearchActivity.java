@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +23,7 @@ import java.util.ArrayList;
 import simbolstudio.projectcurrencysurf.R;
 import simbolstudio.projectcurrencysurf.base.ui.BaseAppCompatActivity;
 import simbolstudio.projectcurrencysurf.common.ConstantHelper;
+import simbolstudio.projectcurrencysurf.common.HideKeyboard;
 import simbolstudio.projectcurrencysurf.model.ForexRate;
 
 public class SearchActivity extends BaseAppCompatActivity {
@@ -102,6 +102,8 @@ public class SearchActivity extends BaseAppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                searchRecycler.scrollToPosition(0);
+                searchCurrencyAdapter.notifyDataSetChanged();
             }
         };
         titleText = getCustomTitleText();
@@ -149,6 +151,7 @@ public class SearchActivity extends BaseAppCompatActivity {
                 bundle.putSerializable(ConstantHelper.EXTRA_SELECTED_CURRENCY_LIST, forexRate);
                 intent.putExtra(ConstantHelper.EXTRA_BUNDLE_CURRENCY, bundle);
                 setResult(RESULT_OK, intent);
+                HideKeyboard.hideKeyboard(getActivityContext(), editTextLayout);
                 finish();
                 break;
         }
@@ -173,6 +176,8 @@ public class SearchActivity extends BaseAppCompatActivity {
             editTextLayout.setVisibility(View.VISIBLE);
             searchEditText.setVisibility(View.VISIBLE);
             searchMenuItem.setVisible(false);
+            HideKeyboard.showKeyboard(getActivityContext(), editTextLayout);
+            searchEditText.requestFocus();
         } else {
             titleText.setVisibility(View.VISIBLE);
             editTextLayout.setVisibility(View.GONE);
@@ -183,11 +188,19 @@ public class SearchActivity extends BaseAppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        HideKeyboard.hideKeyboard(getActivityContext(), editTextLayout);
         if (currentMode == ConstantHelper.MODE_NORMAL) {
             finish();
         } else {
             currentMode = ConstantHelper.MODE_NORMAL;
             changeMode(currentMode);
         }
+    }
+
+    public String getSearchTerm() {
+        String searchTerm = "";
+        if (searchEditText != null)
+            searchTerm = searchEditText.getText().toString();
+        return searchTerm;
     }
 }

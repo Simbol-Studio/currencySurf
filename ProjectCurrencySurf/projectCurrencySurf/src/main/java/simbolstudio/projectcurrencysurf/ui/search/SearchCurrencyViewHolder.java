@@ -19,7 +19,7 @@ public class SearchCurrencyViewHolder extends RecyclerView.ViewHolder {
     //
     TextView currencyHeader;
     //
-    RelativeLayout currencyLayout;
+    RelativeLayout itemLayout;
     SimpleDraweeView currencyImg;
     TextView currencyCodeText;
     TextView currencyNmText;
@@ -30,8 +30,9 @@ public class SearchCurrencyViewHolder extends RecyclerView.ViewHolder {
         this.isHeader = isHeader;
         if (isHeader) {
             currencyHeader = (TextView) view.findViewById(R.id.currencyHeader);
+            itemLayout = (RelativeLayout) view.findViewById(R.id.headerLayout);
         } else {
-            currencyLayout = (RelativeLayout) view.findViewById(R.id.currencyLayout);
+            itemLayout = (RelativeLayout) view.findViewById(R.id.currencyLayout);
             currencyImg = (SimpleDraweeView) view.findViewById(R.id.currencyImg);
             currencyCodeText = (TextView) view.findViewById(R.id.currencyCode);
             currencyNmText = (TextView) view.findViewById(R.id.currencyNm);
@@ -50,8 +51,8 @@ public class SearchCurrencyViewHolder extends RecyclerView.ViewHolder {
         this.currencyIsSelectedCheckBox.setChecked(isSelected);
     }
 
-    public RelativeLayout getCurrencyLayout() {
-        return this.currencyLayout;
+    public RelativeLayout getItemLayout() {
+        return this.itemLayout;
     }
 
     public CheckBox getCurrencyIsSelectedCheckBox() {

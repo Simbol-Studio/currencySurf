@@ -35,6 +35,7 @@ public class ConstantHelper {
     public static final int SNACKBAR_TEXT_SIZE = 16;
     public static final int SNACKBAR_TEXT_MAXLINE = 3;
 
-    public static final int VIEW_TYPE_HEADER = 0x01;
     public static final int VIEW_TYPE_CONTENT = 0x00;
+    public static final int VIEW_TYPE_HEADER = 0x01;
+    public static final int VIEW_TYPE_EMPTY = 0x02;
 }
