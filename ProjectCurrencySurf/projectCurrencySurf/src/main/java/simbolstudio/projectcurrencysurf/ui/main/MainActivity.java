@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,11 +26,13 @@ import simbolstudio.projectcurrencysurf.R;
 import simbolstudio.projectcurrencysurf.base.ui.BaseAppCompatActivity;
 import simbolstudio.projectcurrencysurf.common.ConstantHelper;
 import simbolstudio.projectcurrencysurf.controller.OkHttpClientSingleton;
+import simbolstudio.projectcurrencysurf.library.itemtouchhelper.OnStartDragListener;
+import simbolstudio.projectcurrencysurf.library.itemtouchhelper.SimpleItemTouchHelperCallback;
 import simbolstudio.projectcurrencysurf.model.ForexRate;
 import simbolstudio.projectcurrencysurf.model.YQLCurrencyQueryResponse;
 import simbolstudio.projectcurrencysurf.ui.search.SearchActivity;
 
-public class MainActivity extends BaseAppCompatActivity {
+public class MainActivity extends BaseAppCompatActivity implements OnStartDragListener {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
@@ -46,6 +49,7 @@ public class MainActivity extends BaseAppCompatActivity {
     OkHttpClientSingleton okHttpClientSingleton;
     boolean doubleBackToExitPressedOnce = false;
     boolean isLoading = false;
+    private ItemTouchHelper mItemTouchHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,11 +107,15 @@ public class MainActivity extends BaseAppCompatActivity {
             }
         };
         mainRecycler.setLayoutManager(layoutManager);
-        mainCurrencyAdapter = new MainCurrencyAdapter(getActivityContext());
+        mainCurrencyAdapter = new MainCurrencyAdapter(getActivityContext(), this,mainRecycler);
         mainRecycler.setAdapter(mainCurrencyAdapter);
 
         mainCurrencyAdapter.setForexList((ArrayList<ForexRate>) convertStringToObject(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, ConstantHelper.METHOD_OBJECT_SERIALIZER, selectedForexRateListJSONString));
         mainCurrencyAdapter.notifyDataSetChanged();
+
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(getActivityContext(),mainCurrencyAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mainRecycler);
     }
 
     @Override
@@ -138,6 +146,11 @@ public class MainActivity extends BaseAppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        mItemTouchHelper.startDrag(viewHolder);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -274,7 +287,7 @@ public class MainActivity extends BaseAppCompatActivity {
         setSwipeContainerRefreshing(false);
     }
 
-    private void updateSelectedCurrency(ArrayList<ForexRate> selectedCurrency) {
+    public void updateSelectedCurrency(ArrayList<ForexRate> selectedCurrency) {
         if (sharedPreferences != null & editor != null && selectedCurrency != null) {
             String selectedCurrencyListJSONString = convertObjectToString(ConstantHelper.KEY_ASSETS_NAME_CURRENCIES, selectedCurrency);
             editor.putString(ConstantHelper.SHARED_PREFERENCES_SELECTED_CURRENCY_LIST, selectedCurrencyListJSONString);

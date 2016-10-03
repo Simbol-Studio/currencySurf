@@ -10,24 +10,31 @@ import android.view.ViewGroup;
 import com.facebook.common.util.UriUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import simbolstudio.projectcurrencysurf.R;
+import simbolstudio.projectcurrencysurf.library.itemtouchhelper.ItemTouchHelperAdapter;
+import simbolstudio.projectcurrencysurf.library.itemtouchhelper.OnStartDragListener;
 import simbolstudio.projectcurrencysurf.model.ForexRate;
 
 /**
  * Created by Marcus on 28-Aug-2016.
  */
-public class MainCurrencyAdapter extends RecyclerView.Adapter<MainCurrencyViewHolder> {
+public class MainCurrencyAdapter extends RecyclerView.Adapter<MainCurrencyViewHolder> implements ItemTouchHelperAdapter {
     Context context;
     ArrayList<ForexRate> forexList;
+    private final OnStartDragListener mDragStartListener;
+    RecyclerView mainRecycler;
 
     public ArrayList<ForexRate> getForexList() {
         return forexList;
     }
 
-    public MainCurrencyAdapter(Context context) {
+    public MainCurrencyAdapter(Context context,OnStartDragListener dragStartListener,RecyclerView mainRecycler) {
         this.context = context;
+        this.mDragStartListener = dragStartListener;
         forexList = new ArrayList<>();
+        this.mainRecycler=mainRecycler;
     }
 
     public void setForexList(ArrayList<ForexRate> forexList) {
@@ -61,6 +68,27 @@ public class MainCurrencyAdapter extends RecyclerView.Adapter<MainCurrencyViewHo
             return forexList.get(position);
         else
             return null;
+    }
+
+    @Override
+    public void onItemSwipedLeft(int position) {
+        forexList.remove(position);
+        notifyItemRemoved(position);
+        notifyDataSetChanged();
+        ((MainActivity)context).updateSelectedCurrency(forexList);
+    }
+
+    @Override
+    public void onItemSwipedRight(int position) {
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        Collections.swap(forexList, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
+        ((MainActivity)context).updateSelectedCurrency(forexList);
+        return true;
     }
 
     @Override
