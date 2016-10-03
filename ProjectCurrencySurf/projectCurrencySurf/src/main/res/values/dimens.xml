@@ -1,5 +1,8 @@
 <resources>
     <!--for margin & padding-->
+    <dimen name="_0_dp">0dp</dimen>
+    <dimen name="_1_dp">1dp</dimen>
+    <dimen name="_2_dp">2dp</dimen>
     <dimen name="_4_dp">4dp</dimen>
     <dimen name="_8_dp">8dp</dimen>
     <dimen name="_12_dp">12dp</dimen>
