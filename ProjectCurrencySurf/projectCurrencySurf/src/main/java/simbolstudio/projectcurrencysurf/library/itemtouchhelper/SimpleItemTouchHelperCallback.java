@@ -24,7 +24,6 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.View;
 
 import simbolstudio.projectcurrencysurf.R;
@@ -45,12 +44,13 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     private final ItemTouchHelperAdapter mAdapter;
     private Paint paint;
     Drawable icon;
+    int iconMargin;
 
     public SimpleItemTouchHelperCallback(Context context, ItemTouchHelperAdapter adapter) {
         this.context = context;
         this.mAdapter = adapter;
-
         this.paint = new Paint();
+        this.iconMargin = (int) context.getResources().getDimension(R.dimen._16_dp);
     }
 
     @Override
@@ -92,47 +92,48 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+        if (viewHolder.getAdapterPosition() == -1) {
+            return;
+        }
+
+        View itemView = viewHolder.itemView;
+
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
 
-            View itemView = viewHolder.itemView;
-            int height = itemView.getBottom() - itemView.getTop();
-            int width = itemView.getRight() - itemView.getLeft();
-            float iconH = context.getResources().getDisplayMetrics().density * 28;
-            float iconW = context.getResources().getDisplayMetrics().density * 28;
+
             if (dX > 0) {
                 RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom());
                 paint.setColor(Color.parseColor("#FF9800"));
                 c.drawRect(background, paint);
-
                 icon = context.getResources().getDrawable(R.drawable.ico_plus);
+                int itemHeight = itemView.getBottom() - itemView.getTop();
+                int intrinsicWidthorHeight = icon.getIntrinsicWidth();
 
-                float rate = Math.abs(dX) / width;
+                int xMarkLeft = itemView.getLeft() + (int) Math.round(iconMargin * 3) - intrinsicWidthorHeight;
+                int xMarkRight = itemView.getLeft() + (int) Math.round(iconMargin * 3);
+                int xMarkTop = itemView.getTop() + (itemHeight - intrinsicWidthorHeight) / 2;
+                int xMarkBottom = xMarkTop + intrinsicWidthorHeight;
+                icon.setBounds(xMarkLeft, xMarkTop, xMarkRight, xMarkBottom);
 
-                int iconLeft = (int) (itemView.getLeft() - iconW + width / 3 * rate);
-                int iconTop = (int) (itemView.getTop() + height / 2 - iconH / 2);
-                int iconRight = (int) (itemView.getLeft() + width / 3 * rate);
-                int iconBottom = (int) (itemView.getBottom() - height / 2 + iconH / 2);
-
-                Log.v("nnnn", " getleft= " + itemView.getLeft() + " iconleft= " + iconLeft + " iconright= " + iconRight);
-                icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
                 icon.draw(c);
 
             } else if (dX < 0) {
-
                 RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom());
                 paint.setColor(Color.parseColor("#E91E63"));
                 c.drawRect(background, paint);
+                icon = context.getResources().getDrawable(R.drawable.ico_plus);
+                // draw x mark
+                int itemHeight = itemView.getBottom() - itemView.getTop();
+                int intrinsicWidthorHeight = icon.getIntrinsicWidth();
 
-                icon = context.getResources().getDrawable(R.drawable.aed);
+                int xMarkLeft = itemView.getRight() - iconMargin - intrinsicWidthorHeight;
+                int xMarkRight = itemView.getRight() - iconMargin;
+                int xMarkTop = itemView.getTop() + (itemHeight - intrinsicWidthorHeight) / 2;
+                int xMarkBottom = xMarkTop + intrinsicWidthorHeight;
+                icon.setBounds(xMarkLeft, xMarkTop, xMarkRight, xMarkBottom);
 
-                float rate = Math.abs(dX) / width;
-
-                int iconLeft = (int) (itemView.getRight() - width / 3 * rate);
-                int iconTop = (int) (itemView.getTop() + height / 2 - iconH / 2);
-                int iconRight = (int) (itemView.getRight() + iconW - width / 3 * rate);
-                int iconBottom = (int) (itemView.getBottom() - height / 2 + iconH / 2);
-                icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
                 icon.draw(c);
+
             }
         }
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
