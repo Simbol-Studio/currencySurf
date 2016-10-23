@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/MPChartLib/MPChartLib.iml" filepath="$PROJECT_DIR$/MPChartLib/MPChartLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/ProjectCurrencySurf.iml" filepath="$PROJECT_DIR$/ProjectCurrencySurf.iml" />
       <module fileurl="file://$PROJECT_DIR$/projectCurrencySurf/projectCurrencySurf.iml" filepath="$PROJECT_DIR$/projectCurrencySurf/projectCurrencySurf.iml" />
     </modules>
